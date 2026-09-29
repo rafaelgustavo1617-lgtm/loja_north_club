@@ -1,0 +1,4 @@
+uploads
+server/data
+server/node_modules
+server/.env

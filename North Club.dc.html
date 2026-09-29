@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Inter+Tight:wght@500;600&amp;family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;1,6..96,400&amp;display=swap" rel="stylesheet">
+
+<style>
+html{scroll-behavior:smooth}
+body{overflow-x:clip;margin:0;background:#2C0F0C;color:#F4F1EC;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#F4F1EC;text-decoration:none}
+a:hover{color:#C9B6AE}
+::-webkit-scrollbar{height:0}
+@keyframes nc-marq-l{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@keyframes nc-marq-r{from{transform:translate3d(-50%,0,0)}to{transform:translate3d(0,0,0)}}
+</style>
+</helmet>
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;background:{{ headerBg }};border-bottom:1px solid {{ headerLine }};transition:background 400ms ease,border-color 400ms ease">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,48px);height:76px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <a href="#top" aria-label="North Club" style="display:flex;flex-shrink:1;min-width:0"><span style="display:flex;align-items:center;gap:{{ logoGap }};white-space:nowrap;min-width:0"><span style="width:30px;height:30px;border:1px solid #F4F1EC;display:flex;align-items:center;justify-content:center;font-family:'Inter Tight',sans-serif;font-weight:600;font-size:11px;letter-spacing:0.08em;color:#F4F1EC">NC</span><span style="display:flex;flex-direction:column;gap:3px;line-height:1"><span style="font-family:'Inter Tight',sans-serif;font-weight:600;font-size:{{ logoSize }};letter-spacing:{{ logoTrack }};color:#F4F1EC">NORTH CLUB</span><span style="font-size:8px;letter-spacing:{{ logoSubTrack }};color:#C9B6AE">MULTIMARCAS</span></span></span></a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;align-items:center;gap:40px">
+        <a href="#camisetas" onClick="{{ navTo }}" style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase">Camisetas</a>
+        <a href="#moletons" onClick="{{ navTo }}" style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase">Moletons</a>
+        <a href="#calcados" onClick="{{ navTo }}" style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase">Calçados</a>
+        <a href="#marcas" onClick="{{ navTo }}" style="font-size:12px;letter-spacing:0.2em;text-transform:uppercase">Marcas</a>
+        <button onClick="{{ openCart }}" aria-label="Sacola" style="background:none;border:0;color:#F4F1EC;cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 0;font-family:Inter,sans-serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap">
+          <span style="position:relative;width:16px;height:14px;border:1px solid #F4F1EC;margin-top:4px;display:block"><span style="position:absolute;left:3px;top:-6px;width:8px;height:6px;border:1px solid #F4F1EC;border-bottom:0;border-radius:4px 4px 0 0;display:block"></span></span>
+          <span>{{ cartLabel }}</span>
+        </button>
+      </nav>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+      <button onClick="{{ openCart }}" aria-label="Sacola" style="background:none;border:0;color:#F4F1EC;cursor:pointer;display:flex;align-items:center;gap:8px;padding:10px;min-height:44px;font-family:Inter,sans-serif;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap">
+          <span style="position:relative;width:16px;height:14px;border:1px solid #F4F1EC;margin-top:4px;display:block"><span style="position:absolute;left:3px;top:-6px;width:8px;height:6px;border:1px solid #F4F1EC;border-bottom:0;border-radius:4px 4px 0 0;display:block"></span></span>
+          <span>{{ cartCount }}</span>
+        </button>
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="background:none;border:0;padding:14px 0 14px 10px;cursor:pointer;display:flex;flex-direction:column;gap:7px">
+        <span style="display:block;width:26px;height:1px;background:#F4F1EC"></span>
+        <span style="display:block;width:26px;height:1px;background:#F4F1EC"></span>
+      </button>
+      </div>
+    </sc-if>
+  </div>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <nav style="background:#2C0F0C;border-top:1px solid rgba(244,241,236,0.15);padding:24px;display:flex;flex-direction:column;gap:4px;height:calc(100vh - 76px)">
+      <a href="#camisetas" onClick="{{ closeMenuNav }}" style="font-size:13px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 0;border-bottom:1px solid rgba(244,241,236,0.15)">Camisetas</a>
+      <a href="#moletons" onClick="{{ closeMenuNav }}" style="font-size:13px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 0;border-bottom:1px solid rgba(244,241,236,0.15)">Moletons</a>
+      <a href="#calcados" onClick="{{ closeMenuNav }}" style="font-size:13px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 0;border-bottom:1px solid rgba(244,241,236,0.15)">Calçados</a>
+      <a href="#marcas" onClick="{{ closeMenuNav }}" style="font-size:13px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 0;border-bottom:1px solid rgba(244,241,236,0.15)">Marcas</a>
+      <a href="#contato" onClick="{{ closeMenuNav }}" style="font-size:13px;letter-spacing:0.2em;text-transform:uppercase;padding:18px 0;border-bottom:1px solid rgba(244,241,236,0.15)">Contato</a>
+      <a href="{{ storeLink }}" style="margin-top:28px;align-self:flex-start;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;border:1px solid #F4F1EC;padding:14px 24px">Comprar</a>
+    </nav>
+  </sc-if>
+</header>
+
+<div ref="{{ viewRef }}" style="backface-visibility:hidden">
+<sc-if value="{{ isStore }}" hint-placeholder-val="{{ true }}">
+<main id="top">
+  <section data-screen-label="Hero" style="position:relative;min-height:{{ heroMinH }};overflow:hidden;background:radial-gradient(ellipse 70% 70% at 50% 45%,#EFECE8 0%,#E2DED9 60%,#D3CEC8 100%);color:#1A1412">
+    {{ heroLogo }}
+    <div style="position:relative;z-index:2;max-width:1400px;margin:0 auto;padding:clamp(88px,9vw,104px) clamp(16px,4vw,48px) 0;min-height:{{ heroMinH }};display:grid;grid-template-rows:{{ heroRows }};opacity:{{ titleOpacity }};transform:translateY({{ titleY }});transition:opacity 900ms ease,transform 900ms ease">
+      <div style="position:relative;z-index:3;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;padding:{{ rowPad }};font-size:{{ rowFs }};letter-spacing:{{ rowTrack }};text-transform:uppercase;color:#5A504C">
+        <span style="white-space:nowrap">Coleção 01 · 2026</span>
+        <span style="display:flex;align-items:center;gap:8px;white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:#D63A2F;display:block"></span>Curadoria multimarcas</span>
+      </div>
+      <div style="position:relative;display:grid;grid-template-columns:{{ coverCols }};align-items:stretch;gap:clamp(16px,2vw,32px);min-height:0">
+        <div style="position:relative;z-index:3;display:flex;flex-direction:column;justify-content:space-between;gap:{{ coverTextGap }};padding:{{ coverTextPad }};order:{{ coverTextOrder }};display:{{ coverSide }}">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <h1 style="margin:0;font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-weight:600;font-size:clamp(22px,2.2vw,32px);line-height:1.08;letter-spacing:0.01em;text-transform:uppercase;text-wrap:balance">As marcas que definem o estilo.</h1>
+            <p style="margin:0;font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(14px,1.2vw,17px);line-height:1.4;color:#5A504C;max-width:28ch">Roupas, calçados e acessórios originais, selecionados peça por peça.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:28px">
+          <div style="display:{{ coverSide }};flex-direction:column;gap:8px">
+            <span style="font-family:Inter,sans-serif;font-size:clamp(18px,1.7vw,24px);font-weight:500">Encomenda sob demanda</span>
+            <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(14px,1.2vw,17px);line-height:1.4;color:#5A504C;max-width:24ch">A peça que você procura, mesmo fora da vitrine.</span>
+          </div>
+          <a href="#colecao" style="align-self:flex-start;display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#1A1412;padding:14px 24px;border:1px solid rgba(26,20,18,0.5);transition:all 300ms ease;white-space:nowrap" style-hover="background:#1A1412;color:#F4F1EC">Ver coleção <span>→</span></a>
+          </div>
+        </div>
+        <div role="img" aria-label="Modelo de sobretudo e boné caminhando" style="position:relative;z-index:2;overflow:hidden;align-self:start;margin:{{ coverImgMargin }};height:{{ coverImgH }};aspect-ratio:{{ coverImgAR }};-webkit-mask-image:{{ coverMask }};mask-image:{{ coverMask }}">
+                    <div style="position:absolute;inset:0;background-image:url(assets/hero-andando.png);background-size:contain;background-repeat:no-repeat;background-position:center bottom;pointer-events:none;filter:drop-shadow(0 24px 30px rgba(0,0,0,0.18))"></div>
+          <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;z-index:4;left:16px;top:4%;width:28%;display:flex;flex-direction:column;gap:6px">
+              <h1 style="margin:0;font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-weight:600;font-size:clamp(13px,4vw,17px);line-height:1.1;text-transform:uppercase;color:#1A1412;text-wrap:balance">As marcas que definem o estilo.</h1>
+              <p style="margin:0;font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(11px,3.1vw,13px);line-height:1.35;color:#5A504C">Roupas, calçados e acessórios originais, selecionados peça por peça.</p>
+            </div>
+            <div style="position:absolute;z-index:4;right:16px;top:18%;width:26%;display:flex;flex-direction:column;gap:6px;align-items:flex-end;text-align:right">
+              <span style="font-family:Inter,sans-serif;font-weight:500;font-size:clamp(12px,3.6vw,15px);line-height:1.2;color:#1A1412">Camisetas, moletons &amp; calçados</span>
+              <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(11px,3.1vw,13px);line-height:1.35;color:#5A504C">Peças originais das marcas que você conhece.</span>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:20px;padding:4px 0 40px">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-family:Inter,sans-serif;font-weight:500;font-size:15px;color:#1A1412">Encomenda sob demanda</span>
+                <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:13px;line-height:1.35;color:#5A504C">A peça que você procura, mesmo fora da vitrine.</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;text-align:right">
+                <span style="font-family:Inter,sans-serif;font-weight:500;font-size:15px;color:#1A1412">Feita para durar</span>
+                <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:13px;line-height:1.35;color:#5A504C">Materiais que envelhecem bem.</span>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+              <a href="#colecao" style="display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#1A1412;padding:14px 20px;border:1px solid rgba(26,20,18,0.5);white-space:nowrap">Ver coleção <span>→</span></a>
+              <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:13px;color:#5A504C">“Poucas peças. Bem-feitas.”</span>
+            </div>
+          </div>
+        </sc-if>
+        <div style="position:relative;z-index:3;display:{{ coverSide }};flex-direction:column;justify-content:space-between;align-items:flex-end;text-align:right;gap:32px;padding:clamp(24px,3vw,40px) 0 clamp(40px,5vw,64px)">
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+            <span style="font-family:Inter,sans-serif;font-size:clamp(18px,1.7vw,24px);font-weight:500">Camisetas, moletons &amp; calçados</span>
+            <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(14px,1.2vw,17px);line-height:1.4;color:#5A504C;max-width:24ch">Peças originais das marcas que você conhece.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:24px;align-items:flex-end">
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+            <span style="font-family:Inter,sans-serif;font-size:clamp(18px,1.7vw,24px);font-weight:500">Feita para durar</span>
+            <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(14px,1.2vw,17px);line-height:1.4;color:#5A504C;max-width:22ch">Materiais que envelhecem bem.</span>
+          </div>
+          <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(14px,1.2vw,17px);line-height:1.4;color:#5A504C">“Poucas peças. Bem-feitas.”</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="marcas" data-screen-label="Marcas" style="scroll-margin-top:76px;background:#2C0F0C;border-bottom:1px solid rgba(244,241,236,0.15)">
+    <div style="max-width:1200px;margin:0 auto;padding:clamp(24px,4vw,40px) clamp(16px,4vw,48px);display:flex;flex-wrap:wrap;justify-content:{{ brandJustify }};align-items:center;gap:{{ brandGap }}">
+      <span style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">Marcas</span>
+      <sc-for list="{{ brands }}" as="b" hint-placeholder-count="6">
+        <button onClick="{{ b.open }}" style="background:none;border:0;padding:6px 0;cursor:pointer;color:#F4F1EC;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap" style-hover="color:#C9B6AE">{{ b.name }}</button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="colecao" data-screen-label="Coleção" style="background:#2C0F0C;padding:clamp(64px,11vw,160px) 0 clamp(48px,6vw,80px)">
+    <div data-reveal="1" style="max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,48px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+      <div>
+        <p style="margin:0 0 20px;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">Coleção 01</p>
+        <h2 style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.1;letter-spacing:-0.02em">A seleção</h2>
+      </div>
+      <nav style="display:flex;gap:8px;flex-wrap:wrap">
+        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+          <a href="{{ g.href }}" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:10px 16px;border:1px solid rgba(244,241,236,0.3);white-space:nowrap;transition:all 300ms ease" style-hover="background:#F4F1EC;color:#2C0F0C;border-color:#F4F1EC">{{ g.title }}</a>
+        </sc-for>
+      </nav>
+    </div>
+  </section>
+
+  <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+    <section id="{{ g.id }}" data-screen-label="{{ g.title }}" style="scroll-margin-top:76px;background:{{ g.bg }};padding:clamp(56px,9vw,128px) 0;border-top:1px solid rgba(244,241,236,0.15)">
+      <div style="max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,48px);display:grid;grid-template-columns:{{ groupCols }};gap:clamp(28px,5vw,80px);align-items:start;min-width:0">
+        <div style="position:{{ labelPos }};top:120px;display:flex;flex-direction:column;gap:20px">
+          <span style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">{{ g.num }}</span>
+          <h3 style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(34px,4.4vw,56px);line-height:1.0;letter-spacing:-0.02em">{{ g.title }}</h3>
+          <p style="margin:0;font-size:16px;line-height:1.7;color:#C9B6AE;max-width:30ch">{{ g.text }}</p>
+          <span style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE;padding-top:20px;border-top:1px solid rgba(244,241,236,0.15)">{{ g.count }}</span>
+          <div style="display:flex;flex-direction:{{ chipDir }};flex-wrap:wrap;align-items:flex-start;gap:6px">
+            <sc-for list="{{ g.chips }}" as="c" hint-placeholder-count="3">
+              <button onClick="{{ c.pick }}" style="background:none;border:0;padding:6px 0;cursor:pointer;font-family:Inter,sans-serif;font-size:13px;text-align:left;color:{{ c.color }};display:flex;align-items:center;gap:10px;white-space:nowrap" style-hover="color:#F4F1EC">
+                <span style="width:14px;height:1px;background:{{ c.line }};display:block"></span>
+                <span>{{ c.label }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ collCols }};gap:{{ collGap }};min-width:0">
+          <sc-for list="{{ g.items }}" as="p" hint-placeholder-count="3">
+        <article style="min-width:0">
+          <a href="#" onClick="{{ p.open }}" aria-label="Ver opções" style="display:block;aspect-ratio:4/5;overflow:hidden;background:#4A1A16;position:relative;cursor:pointer">
+            <div style="position:absolute;inset:0;background-color:#4A1A16;background-image:{{ p.bg }};background-size:cover;background-position:center;transition:transform 400ms ease" style-hover="transform:scale(1.03)"></div>
+          </a>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:{{ cardGap }};padding-bottom:{{ cardPadB }};border-bottom:1px solid rgba(244,241,236,0.15)">
+            <button onClick="{{ p.openBrand }}" style="align-self:flex-start;background:none;border:0;padding:0;cursor:pointer;font-family:Inter,sans-serif;font-size:{{ cardMeta }};letter-spacing:{{ cardTrack }};text-transform:uppercase;color:#C9B6AE;text-align:left;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" style-hover="color:#F4F1EC">{{ p.brand }}</button>
+            <h3 style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:{{ cardTitle }};letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</h3>
+            <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+              <span style="font-size:11px;color:#C9B6AE">{{ p.fromLabel }}</span>
+              <span style="font-size:14px;color:#F4F1EC">{{ p.priceLabel }}</span>
+              <sc-if value="{{ p.hasWas }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#C9B6AE;text-decoration:line-through">{{ p.wasLabel }}</span></sc-if>
+            </div>
+          </div>
+          <div style="display:{{ cardFoot }};justify-content:space-between;align-items:center;margin-top:14px">
+            <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#C9B6AE;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">{{ p.tag }}</span>
+            <button onClick="{{ p.open }}" style="background:none;border:0;padding:6px 0;cursor:pointer;color:#F4F1EC;font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap" style-hover="color:#C9B6AE">Ver opções →</button>
+          </div>
+        </article>
+          </sc-for>
+        </div>
+      </div>
+      <sc-if value="{{ g.showRibbon }}" hint-placeholder-val="{{ false }}"><section data-screen-label="Faixa" aria-hidden="true" style="position:relative;overflow:hidden;width:100%;background:{{ g.bg }};height:clamp(150px,20vw,260px);margin-top:calc(-1 * clamp(24px,4vw,64px));perspective:1100px">
+        {{ ribbons }}
+      </section></sc-if>
+    </section>
+  </sc-for>
+
+  <section data-screen-label="Editorial" style="background:#4A1A16;padding:clamp(64px,11vw,160px) 0 0">
+    <div style="max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,48px)">
+      <div data-reveal="1" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(32px,5vw,64px)">
+        <div>
+          <p style="margin:0 0 20px;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">Editorial</p>
+          <h2 style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.1;letter-spacing:-0.02em">Malha, lã e camurça.</h2>
+        </div>
+        <p style="margin:0;font-size:16px;line-height:1.7;color:#C9B6AE;max-width:40ch">Materiais que envelhecem bem, escolhidos peça por peça.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:{{ editorialCols }};gap:clamp(24px,3vw,40px);align-items:end">
+        <sc-for list="{{ editorial }}" as="e" hint-placeholder-count="2">
+          <figure data-reveal="1" style="margin:0">
+            <div style="aspect-ratio:{{ e.ratio }};background-color:#5E2420;background-image:{{ e.bg }};background-size:cover;background-position:center"></div>
+            <figcaption style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:{{ cardGap }};padding-bottom:{{ cardPadB }};border-bottom:1px solid rgba(244,241,236,0.15)">
+              <span style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">{{ e.brand }}</span>
+              <button onClick="{{ e.open }}" style="background:none;border:0;padding:6px 0;cursor:pointer;color:#F4F1EC;font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap" style-hover="color:#C9B6AE">{{ e.cta }}</button>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Detalhes" style="background:#4A1A16;padding:clamp(64px,11vw,160px) 0">
+    <div style="max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,48px);display:grid;grid-template-columns:{{ detailCols }};gap:clamp(32px,6vw,96px);align-items:center">
+      <div data-reveal="1" style="aspect-ratio:4/5;position:relative;background-color:#5E2420;background-image:{{ detailBg }};background-size:cover;background-position:center 40%"></div>
+      <div data-reveal="1">
+        <p style="margin:0 0 20px;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">Detalhes</p>
+        <h2 style="margin:0 0 clamp(32px,4vw,56px);font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.1;letter-spacing:-0.02em">Feita para durar.</h2>
+        <div style="border-top:1px solid rgba(244,241,236,0.15)">
+          <sc-for list="{{ details }}" as="d" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding:20px 0;border-bottom:1px solid rgba(244,241,236,0.15)">
+              <span style="font-size:10px;letter-spacing:0.2em;color:#C9B6AE;padding-top:4px">{{ d.n }}</span>
+              <div>
+                <p style="margin:0 0 6px;font-size:12px;letter-spacing:0.2em;text-transform:uppercase">{{ d.title }}</p>
+                <p style="margin:0;font-size:16px;line-height:1.7;color:#C9B6AE;max-width:40ch">{{ d.text }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre" data-screen-label="Manifesto" style="background:#4A1A16;padding:clamp(64px,11vw,160px) clamp(16px,4vw,48px)">
+    <div data-reveal="1" style="max-width:800px;margin:0 auto;text-align:center">
+      <p style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(24px,3.6vw,44px);line-height:1.2;letter-spacing:-0.02em;text-wrap:balance">Poucas peças. Bem-feitas. Para usar todos os dias, por muitos anos.</p>
+      <div style="width:64px;height:1px;background:rgba(244,241,236,0.15);margin:48px auto 24px"></div>
+      <p style="margin:0;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">— North Club</p>
+    </div>
+  </section>
+
+  <section data-screen-label="CTA" style="background:#2C0F0C;padding:clamp(64px,11vw,160px) clamp(16px,4vw,48px)">
+    <div data-reveal="1" style="max-width:800px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center">
+      <h2 style="margin:0 0 32px;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.1;letter-spacing:-0.02em">Comece pelo essencial.</h2>
+      <a href="{{ storeLink }}" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;background:#F4F1EC;color:#2C0F0C;padding:16px 32px;border:1px solid #F4F1EC;transition:all 300ms ease;white-space:nowrap;flex-shrink:0" style-hover="background:transparent;color:#F4F1EC">Comprar agora</a>
+    </div>
+  </section>
+
+  <section data-screen-label="Comparar tênis" style="background:#2C0F0C;border-top:1px solid rgba(244,241,236,0.15);padding:clamp(56px,9vw,128px) clamp(16px,4vw,48px)">
+    <div style="max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(32px,5vw,56px)">
+      <p style="margin:0;text-align:center;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">Arraste para comparar</p>
+      <div style="display:grid;grid-template-columns:{{ cmpCols }};gap:clamp(48px,5vw,56px) clamp(24px,3vw,40px)">
+        <sc-for list="{{ compares }}" as="c" hint-placeholder-count="2">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.4vw,24px);text-align:center;min-width:0">
+            <h2 style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(26px,3.2vw,40px);line-height:1.1;letter-spacing:0.12em;text-transform:uppercase">{{ c.title }}</h2>
+            <button onClick="{{ c.shop }}" style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;background:transparent;color:#F4F1EC;padding:14px 28px;border:1px solid rgba(244,241,236,0.5);cursor:pointer;transition:all 300ms ease" style-hover="background:#F4F1EC;color:#2C0F0C;border-color:#F4F1EC">Ver produto</button>
+            <div ref="{{ c.ref }}" onPointerDown="{{ c.down }}" onPointerMove="{{ c.move }}" onPointerUp="{{ c.up }}" onPointerCancel="{{ c.up }}" style="position:relative;width:100%;aspect-ratio:4/3;margin-top:clamp(4px,1vw,8px);background:#FFFFFF;border-radius:10px;overflow:hidden;cursor:ew-resize;touch-action:pan-y;user-select:none;-webkit-user-select:none">
+              <div style="position:absolute;inset:0;background-color:#FFFFFF;background-image:{{ c.imgB }};background-size:cover;background-position:center"></div>
+              <div style="position:absolute;inset:0;background-color:#FFFFFF;background-image:{{ c.imgA }};background-size:cover;background-position:center;clip-path:{{ c.clip }}"></div>
+              <div style="position:absolute;top:0;bottom:0;left:{{ c.left }};width:2px;margin-left:-1px;background:#FFFFFF;box-shadow:0 0 12px rgba(0,0,0,0.25);pointer-events:none"></div>
+              <div style="position:absolute;top:50%;left:{{ c.left }};width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;border:2px solid #FFFFFF;background:rgba(44,15,12,0.55);display:flex;align-items:center;justify-content:center;gap:6px;color:#FFFFFF;font-size:14px;pointer-events:none">
+                <span>‹</span><span>›</span>
+              </div>
+              <span style="position:absolute;left:12px;bottom:12px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#2C0F0C;background:rgba(255,255,255,0.85);padding:6px 10px;opacity:{{ c.labelA }};transition:opacity 200ms ease;pointer-events:none">{{ c.nameA }}</span>
+              <span style="position:absolute;right:12px;bottom:12px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#2C0F0C;background:rgba(255,255,255,0.85);padding:6px 10px;opacity:{{ c.labelB }};transition:opacity 200ms ease;pointer-events:none">{{ c.nameB }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isProduct }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Produto" style="overflow-x:clip;min-height:100vh;background:#F3F3F5;color:#2E2E2E;padding:76px 0 clamp(64px,8vw,112px);opacity:{{ pageOpacity }};transform:translateY({{ pageY }});transition:opacity 450ms ease,transform 450ms ease">
+  <div style="max-width:1320px;margin:0 auto;padding:0 clamp(12px,2vw,24px)">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:20px 0">
+      <button onClick="{{ goBack }}" style="background:#FFFFFF;border:1px solid #E2E2E6;border-radius:999px;padding:10px 18px;cursor:pointer;color:#2E2E2E;font-family:Inter,sans-serif;font-weight:500;font-size:14px;display:flex;align-items:center;gap:8px;white-space:nowrap" style-hover="background:#2E2E2E;color:#FFFFFF;border-color:#2E2E2E">← Voltar à loja</button>
+      <nav aria-label="Caminho" style="display:flex;gap:8px;font-size:13px;color:#777;flex-wrap:wrap">
+        <span>Loja</span><span>›</span><span>{{ pd.cat }}</span><span>›</span><span style="color:#2E2E2E">{{ pd.brand }}</span>
+      </nav>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 0 16px">
+      <button onClick="{{ pd.prev }}" aria-label="Produto anterior" style="background:none;border:0;padding:8px 0;cursor:pointer;font-family:Inter,sans-serif;font-size:14px;color:#2E2E2E;opacity:{{ pd.prevOpacity }};white-space:nowrap">‹ Anterior</button>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center">
+        <span style="font-size:13px;font-weight:600;color:#2E2E2E">{{ pd.posLabel }}</span>
+        <span style="font-size:12px;color:#888">Deslize para ver mais</span>
+      </div>
+      <button onClick="{{ pd.next }}" aria-label="Próximo produto" style="background:none;border:0;padding:8px 0;cursor:pointer;font-family:Inter,sans-serif;font-size:14px;color:#2E2E2E;opacity:{{ pd.nextOpacity }};white-space:nowrap">Próximo ›</button>
+    </div>
+    <div ref="{{ swipeRef }}" style="display:grid;grid-template-columns:{{ pdCols }};gap:clamp(20px,3vw,40px);align-items:start;min-width:0;touch-action:pan-y;will-change:transform">
+      <div data-swipe-mouse="1" style="position:{{ pdImgPos }};top:96px;background:#FFFFFF;border-radius:16px;overflow:hidden;cursor:grab;user-select:none;-webkit-user-select:none">
+        <div style="aspect-ratio:1/1;background-color:#FFFFFF;background-image:{{ pd.bg }};background-size:cover;background-position:center"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:clamp(20px,3vw,28px);min-width:0;padding:clamp(0px,1.5vw,20px) clamp(4px,1vw,0px)">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <button onClick="{{ pd.openBrand }}" style="align-self:flex-start;background:none;border:0;padding:0;cursor:pointer;font-family:Inter,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#777;text-decoration:underline;text-underline-offset:4px" style-hover="color:#2E2E2E">{{ pd.brand }} →</button>
+          <h1 style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(26px,3.2vw,46px);line-height:1.12;letter-spacing:-0.01em;color:#4A4A4A;text-wrap:balance">{{ pd.name }}</h1>
+          <span style="font-size:16px;color:#555">Cód. {{ pd.code }}</span>
+        </div>
+        <sc-if value="{{ pd.hasThumbs }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <sc-for list="{{ pd.thumbs }}" as="t" hint-placeholder-count="3">
+              <a href="#" onClick="{{ t.open }}" aria-label="{{ t.name }}" style="width:{{ thumbSize }};height:{{ thumbSize }};border-radius:10px;background-color:#FFFFFF;background-image:{{ t.bg }};background-size:cover;background-position:center;border:2px solid {{ t.border }};cursor:pointer;display:block"></a>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-weight:600;font-size:16px;color:#555;min-height:20px">{{ pd.fromLabel }}</span>
+          <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+            <span style="font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(36px,4.4vw,64px);line-height:1.05;color:#2E2E2E;white-space:nowrap">{{ pd.priceLabel }}</span>
+            <sc-if value="{{ pd.hasWas }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:20px;color:#888;text-decoration:line-through;white-space:nowrap">{{ pd.wasLabel }}</span>
+              <span style="font-size:14px;font-weight:700;padding:6px 10px;border-radius:6px;background:#2E2E2E;color:#FFFFFF;white-space:nowrap">{{ pd.offLabel }}</span>
+            </sc-if>
+          </div>
+          <span style="font-size:clamp(15px,1.6vw,18px);color:#555;margin-top:8px">{{ pd.installLabel }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:28px">
+          <sc-for list="{{ pd.options }}" as="o" hint-placeholder-count="2">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px">
+                <span style="font-family:'Inter Tight',sans-serif;font-weight:700;font-size:clamp(18px,2vw,22px);color:#2E2E2E">{{ o.title }}</span>
+                <span style="font-size:14px;color:#555">{{ o.chosen }}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax({{ o.min }},1fr));gap:10px">
+                <sc-for list="{{ o.values }}" as="v" hint-placeholder-count="4">
+                  <button onClick="{{ v.pick }}" style="min-height:52px;padding:10px 12px;border-radius:8px;cursor:pointer;font-family:Inter,sans-serif;font-weight:600;font-size:15px;border:1px solid {{ v.border }};background:{{ v.bg }};color:{{ v.color }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:all 150ms ease">
+                    <span>{{ v.v }}</span>
+                    <span style="font-size:11px;font-weight:400;opacity:0.7">{{ v.extra }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;background:#FFFFFF;border:1px solid #E2E2E6;border-radius:8px">
+            <button onClick="{{ pd.dec }}" aria-label="Diminuir" style="width:52px;height:56px;background:none;border:0;color:#2E2E2E;cursor:pointer;font-size:20px">−</button>
+            <span style="min-width:32px;text-align:center;font-weight:600;font-size:16px">{{ pd.qty }}</span>
+            <button onClick="{{ pd.inc }}" aria-label="Aumentar" style="width:52px;height:56px;background:none;border:0;color:#2E2E2E;cursor:pointer;font-size:20px">+</button>
+          </div>
+          <button onClick="{{ pd.add }}" style="flex:1 1 160px;height:58px;border-radius:8px;font-family:Inter,sans-serif;font-weight:600;font-size:16px;border:0;background:{{ pd.addBg }};color:{{ pd.addColor }};cursor:{{ pd.addCursor }};transition:all 200ms ease">{{ pd.addLabel }}</button>
+        </div>
+        <span style="font-size:14px;color:#555;min-height:20px;margin-top:-12px">{{ pd.addedMsg }} {{ pd.totalLabel }}</span>
+        <p style="margin:0;font-size:16px;line-height:1.7;color:#555;max-width:56ch">{{ pd.desc }}</p>
+        <div style="background:#FFFFFF;border-radius:12px;padding:4px clamp(14px,2vw,20px)">
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid #EEEEF0;font-size:15px"><span style="color:#777">Material</span><span style="font-weight:600">{{ pd.materialLabel }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid #EEEEF0;font-size:15px"><span style="color:#777">Categoria</span><span style="font-weight:600">{{ pd.cat }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:16px;padding:16px 0;font-size:15px"><span style="color:#777">Marca</span><span style="font-weight:600">{{ pd.brand }}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</sc-if>
+
+<sc-if value="{{ isBrand }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Marca" style="min-height:100vh;background:#2C0F0C;padding:76px 0 clamp(80px,9vw,128px)">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,48px)">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:28px 0;border-bottom:1px solid rgba(244,241,236,0.15)">
+      <button onClick="{{ brandBack }}" style="background:none;border:0;padding:8px 0;cursor:pointer;color:#F4F1EC;font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap" style-hover="color:#C9B6AE">← Voltar à loja</button>
+      <span style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">Marcas / {{ bp.name }}</span>
+    </div>
+    <div style="padding:clamp(40px,8vw,112px) 0 clamp(32px,6vw,80px);display:flex;flex-direction:column;gap:clamp(16px,2vw,24px)">
+      <span style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">Marca</span>
+      <h1 style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:600;font-size:clamp(40px,8vw,112px);line-height:0.95;letter-spacing:-0.03em;text-wrap:balance;overflow-wrap:anywhere">{{ bp.name }}</h1>
+      <span style="font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:#C9B6AE">{{ bp.countLabel }}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:{{ bpCols }};gap:{{ collGap }}">
+      <sc-for list="{{ bp.items }}" as="p" hint-placeholder-count="3">
+        <article style="min-width:0">
+          <a href="#" onClick="{{ p.open }}" aria-label="{{ p.name }}" style="display:block;aspect-ratio:4/5;overflow:hidden;background:#4A1A16;position:relative;cursor:pointer">
+            <div style="position:absolute;inset:0;background-color:#4A1A16;background-image:{{ p.bg }};background-size:cover;background-position:center;transition:transform 400ms ease" style-hover="transform:scale(1.03)"></div>
+          </a>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:20px;padding-bottom:16px;border-bottom:1px solid rgba(244,241,236,0.15)">
+            <span style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">{{ p.cat }}</span>
+            <h3 style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:{{ cardTitle }};letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</h3>
+            <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+              <span style="font-size:11px;color:#C9B6AE">{{ p.fromLabel }}</span>
+              <span style="font-size:14px;color:#F4F1EC">{{ p.priceLabel }}</span>
+              <sc-if value="{{ p.hasWas }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#C9B6AE;text-decoration:line-through">{{ p.wasLabel }}</span></sc-if>
+            </div>
+          </div>
+          <div style="display:{{ cardFoot }};justify-content:space-between;align-items:center;gap:12px;margin-top:14px">
+            <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#C9B6AE;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0">{{ p.tag }}</span>
+            <button onClick="{{ p.open }}" style="background:none;border:0;padding:6px 0;cursor:pointer;color:#F4F1EC;font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap" style-hover="color:#C9B6AE">Ver opções →</button>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+    <div style="margin-top:clamp(80px,9vw,128px);padding-top:32px;border-top:1px solid rgba(244,241,236,0.15);display:flex;flex-direction:column;gap:20px">
+      <span style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">Outras marcas</span>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ bp.others }}" as="o" hint-placeholder-count="6">
+          <button onClick="{{ o.open }}" style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:12px 16px;cursor:pointer;border:1px solid rgba(244,241,236,0.3);background:transparent;color:#F4F1EC;white-space:nowrap;transition:all 300ms ease" style-hover="background:#F4F1EC;color:#2C0F0C;border-color:#F4F1EC">{{ o.name }}</button>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</main>
+</sc-if>
+</div>
+
+<sc-if value="{{ cartOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeCart }}" style="position:fixed;inset:0;z-index:60;background:rgba(17,17,17,0.55)"></div>
+  <aside aria-label="Sacola" style="position:fixed;top:0;right:0;bottom:0;z-index:61;width:min(420px,100%);background:#2C0F0C;border-left:1px solid rgba(244,241,236,0.15);display:flex;flex-direction:column">
+    <div style="height:76px;padding:0 clamp(16px,4vw,28px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(244,241,236,0.15)">
+      <span style="font-size:12px;letter-spacing:0.25em;text-transform:uppercase">Sacola · {{ cartCount }}</span>
+      <button onClick="{{ closeCart }}" style="background:none;border:0;color:#F4F1EC;cursor:pointer;font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;padding:10px 0">Fechar</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:8px clamp(16px,4vw,28px)">
+      <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ true }}">
+        <p style="margin:48px 0 0;font-size:15px;line-height:1.7;color:#C9B6AE">Sua sacola está vazia.</p>
+      </sc-if>
+      <sc-for list="{{ cartItems }}" as="c" hint-placeholder-count="0">
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid rgba(244,241,236,0.15)">
+          <div style="aspect-ratio:4/5;background-color:#4A1A16;background-image:{{ c.bg }};background-size:cover;background-position:center"></div>
+          <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+            <span style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">{{ c.brand }}</span>
+            <span style="font-family:'Inter Tight',sans-serif;font-weight:500;font-size:15px">{{ c.pname }}</span>
+            <span style="font-size:12px;color:#C9B6AE">{{ c.variant }}</span>
+            <div style="display:flex;justify-content:space-between;gap:12px;font-size:12px;color:#C9B6AE;margin-top:4px"><span>{{ c.unitLabel }} / un.</span><span style="color:#F4F1EC">{{ c.lineLabel }}</span></div>
+            <div style="display:flex;align-items:center;gap:14px;margin-top:8px">
+              <button onClick="{{ c.dec }}" aria-label="Diminuir" style="width:28px;height:28px;background:none;border:1px solid rgba(244,241,236,0.3);color:#F4F1EC;cursor:pointer">−</button>
+              <span style="font-size:13px;min-width:12px;text-align:center">{{ c.qty }}</span>
+              <button onClick="{{ c.inc }}" aria-label="Aumentar" style="width:28px;height:28px;background:none;border:1px solid rgba(244,241,236,0.3);color:#F4F1EC;cursor:pointer">+</button>
+              <button onClick="{{ c.remove }}" style="margin-left:auto;background:none;border:0;color:#C9B6AE;cursor:pointer;font-family:Inter,sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase">Remover</button>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="padding:20px clamp(16px,4vw,28px) 24px;border-top:1px solid rgba(244,241,236,0.15);display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:#C9B6AE"><span>Subtotal · {{ cartCount }} itens</span><span>{{ subtotalLabel }}</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid rgba(244,241,236,0.15)"><span style="letter-spacing:0.2em;text-transform:uppercase;font-size:11px">Total</span><span style="font-family:'Inter Tight',sans-serif;font-weight:500;font-size:22px">{{ subtotalLabel }}</span></div>
+        <span style="font-size:11px;color:#C9B6AE;line-height:1.6">Frete e forma de pagamento (cartão, Pix e outros) são escolhidos no checkout seguro.</span>
+      </div>
+      <button onClick="{{ checkout }}" style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;background:{{ payBg }};color:{{ payColor }};padding:16px 28px;border:1px solid #F4F1EC;cursor:{{ payCursor }};transition:all 300ms ease">{{ payLabel }}</button>
+      <span style="font-size:12px;line-height:1.6;color:#F4F1EC;min-height:0">{{ payErr }}</span>
+    </div>
+  </aside>
+</sc-if>
+
+<sc-if value="{{ hasOrder }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-label="Status do pedido" style="position:fixed;inset:0;z-index:80;background:#2C0F0C;display:flex;align-items:center;justify-content:center;padding:24px">
+    <div style="width:100%;max-width:520px;display:flex;flex-direction:column;gap:24px;text-align:center;align-items:center">
+      <span style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#C9B6AE">Pedido {{ order.id }}</span>
+      <h2 style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(32px,4vw,44px);line-height:1.1;letter-spacing:-0.02em">{{ order.title }}</h2>
+      <p style="margin:0;font-size:16px;line-height:1.7;color:#C9B6AE;max-width:40ch">{{ order.text }}</p>
+      <span style="font-size:14px">{{ order.totalLabel }}</span>
+      <button onClick="{{ closeOrder }}" style="font-family:Inter,sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;background:#F4F1EC;color:#2C0F0C;padding:16px 28px;border:1px solid #F4F1EC;cursor:pointer">Voltar à loja</button>
+    </div>
+  </div>
+</sc-if>
+
+<section data-screen-label="Encomenda" style="background:#2C0F0C;border-top:1px solid rgba(244,241,236,0.15);padding:clamp(56px,8vw,96px) clamp(16px,4vw,48px)">
+  <div style="max-width:640px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center">
+    <p style="margin:0;font-family:'Inter Tight',sans-serif;font-weight:500;font-size:clamp(14px,1.6vw,16px);letter-spacing:0.3em;text-transform:uppercase;color:#F4F1EC;text-wrap:balance">ENCOMENDA SOB DEMANDA</p>
+    <div style="width:40px;height:1px;background:rgba(244,241,236,0.3)"></div>
+    <a href="https://wa.me/5541998281010" onClick="{{ openWhats }}" style="font-size:clamp(14px,1.6vw,16px);letter-spacing:0.05em;color:#C9B6AE;padding:10px 0;overflow-wrap:anywhere" style-hover="color:#F4F1EC">WhatsApp: (55) 41 99828-1010</a>
+  </div>
+</section>
+
+<a href="https://wa.me/5541998281010" onClick="{{ openWhats }}" aria-label="Fale no WhatsApp: (55) 41 99828-1010" title="WhatsApp: (55) 41 99828-1010" style="position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:55;width:clamp(52px,6vw,60px);height:clamp(52px,6vw,60px);border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.3);transition:transform 200ms ease" style-hover="transform:scale(1.06)">
+  <svg viewBox="0 0 24 24" width="30" height="30" fill="#FFFFFF" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"></path></svg>
+</a>
+
+<footer id="contato" style="background:#2C0F0C">
+  <div style="display:flex;justify-content:center;padding:0 clamp(16px,4vw,48px) clamp(40px,6vw,64px)">
+    <a href="https://instagram.com/" target="_blank" rel="noopener" style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;background:#F4F1EC;color:#2C0F0C;padding:16px 32px;border:1px solid #F4F1EC;border-radius:999px;transition:all 300ms ease;white-space:nowrap" style-hover="background:transparent;color:#F4F1EC">Siga no Instagram</a>
+  </div>
+  <div data-screen-label="Encerramento" style="position:relative;overflow:hidden;background:radial-gradient(ellipse 45% 60% at 50% 55%,#3D3B37 0%,#383632 55%,rgba(56,54,50,0) 100%),linear-gradient(115deg,#2C0F0C 0%,#33211D 30%,#373431 55%,#2E2C29 100%);border-top:1px solid rgba(244,241,236,0.15)">
+    <div style="max-width:1400px;margin:0 auto;padding:clamp(48px,7vw,96px) clamp(16px,4vw,48px) clamp(40px,6vw,72px);display:flex;flex-direction:column;gap:clamp(24px,3vw,40px)">
+      <div style="display:flex;justify-content:space-between;gap:16px;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#E4DCD6">
+        <span style="white-space:nowrap">Edição 01 · 2026</span>
+        <span style="display:flex;align-items:center;gap:8px;white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:#D63A2F;display:block"></span>Curadoria multimarcas</span>
+      </div>
+      <div style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-weight:500;font-size:clamp(52px,15vw,228px);line-height:0.86;letter-spacing:-0.035em;text-align:center;white-space:nowrap;color:#F4F1EC">NORTH CLUB</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:clamp(24px,3vw,40px);padding-top:clamp(16px,2vw,24px);border-top:1px solid rgba(244,241,236,0.2)">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-family:Inter,sans-serif;font-size:clamp(16px,1.5vw,22px);font-weight:500;color:#F4F1EC">Encomenda sob demanda</span>
+          <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(14px,1.2vw,17px);line-height:1.4;color:#E4DCD6">A peça que você procura, mesmo fora da vitrine.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center">
+          <span style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(14px,1.2vw,17px);line-height:1.4;color:#E4DCD6;font-size:clamp(18px,1.8vw,26px)">“Poucas peças. Bem-feitas.”</span>
+          <span style="font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#C9B6AE">— North Club</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;text-align:right">
+          <span style="font-family:Inter,sans-serif;font-size:clamp(16px,1.5vw,22px);font-weight:500;color:#F4F1EC">Fale com a gente</span>
+          <a href="https://wa.me/5541998281010" onClick="{{ openWhats }}" style="font-family:'Bodoni Moda',Didot,'Times New Roman',serif;font-style:italic;font-size:clamp(14px,1.2vw,17px);line-height:1.4;color:#E4DCD6;color:#E4DCD6" style-hover="color:#F4F1EC">WhatsApp (55) 41 99828-1010</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <nav aria-label="Redes sociais" style="display:flex;justify-content:center;flex-wrap:wrap;gap:clamp(8px,2vw,20px);padding:clamp(24px,4vw,40px) 16px">
+      <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#F4F1EC" style-hover="color:#C9B6AE"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1.1.4 2.2.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1.1.4-2.2.4-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1.1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1.1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 2c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.4-.6.7-.8 1.2-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.4.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.4.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.4-.4-.7-.6-1.2-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.3a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 7.4a2.9 2.9 0 1 0 0-5.8 2.9 2.9 0 0 0 0 5.8zm5.7-7.6a1.1 1.1 0 1 1-2.1 0 1.1 1.1 0 0 1 2.1 0z"></path></svg></a>
+      <a href="https://facebook.com/" target="_blank" rel="noopener" aria-label="Facebook" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#F4F1EC" style-hover="color:#C9B6AE"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"></path></svg></a>
+      <a href="https://tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#F4F1EC" style-hover="color:#C9B6AE"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.2a6.2 6.2 0 1 0 5.3 6.2V8.6a7.6 7.6 0 0 0 4.4 1.4V6.7a4.4 4.4 0 0 1-4.4-4.4z"></path></svg></a>
+      <a href="https://youtube.com/" target="_blank" rel="noopener" aria-label="YouTube" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#F4F1EC" style-hover="color:#C9B6AE"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15V9l5.8 3-5.8 3z"></path></svg></a>
+  </nav>
+  <div style="border-top:1px solid rgba(244,241,236,0.15);padding:20px clamp(16px,4vw,48px) calc(20px + env(safe-area-inset-bottom));text-align:center">
+    <p style="margin:0;font-size:12px;line-height:1.7;letter-spacing:0.05em;color:#C9B6AE;text-wrap:balance">© 2026 North Club · Todos os direitos reservados · <a href="mailto:contato@northclub.com.br" style="color:#C9B6AE">contato@northclub.com.br</a></p>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroImage&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Imagens&quot;},&quot;titleImage&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Imagens&quot;},&quot;storeLink&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://wa.me/55XXXXXXXXXXX&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Links&quot;},&quot;checkoutApi&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pagamento&quot;}}">
+const brl = n => 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+/* ================= CATÁLOGO =================
+ * Para adicionar um produto, copie um bloco e edite.
+ * price: preço base · was: preço original (opcional, ativa a promoção)
+ * options: opt('Nome da opção', ['Valor', ['Valor com acréscimo', 40]])
+ *   o número soma ao preço base quando aquela variedade é escolhida.
+ *   ['Valor', 0, 'assets/foto.jpg'] troca a foto quando a variedade é escolhida.
+ * ============================================ */
+const opt = (label, vals) => ({ key: label, label, values: vals.map(v => Array.isArray(v) ? { v: v[0], add: v[1] || 0, img: v[2] } : { v, add: 0 }) });
+const TAM = ['P', 'M', 'G', 'GG'];
+const NUM = ['38', '39', '40', '41', '42', '43', '44'];
+const CATALOG = [
+  { id: 'as', brand: 'AllSaints', name: 'Camiseta oversized', cat: 'Camisetas', img: 'assets/produto-1.jpg', tag: '100% algodão', price: 489, was: 590,
+    desc: 'Camiseta de modelagem ampla em algodão encorpado, ombro caído e gola canelada firme.',
+    options: [opt('Cor', ['Cinza', 'Preto', 'Branco']), opt('Tamanho', ['P', 'M', 'G', ['GG', 40]])] },
+  { id: 'cdg', brand: 'Comme des Garçons PLAY', name: 'Camiseta Heart', cat: 'Camisetas', img: 'assets/hero.jpg', tag: '100% algodão', price: 790,
+    desc: 'Camiseta de algodão com o coração bordado no peito. Corte reto e malha leve.',
+    options: [opt('Modelo', ['Coração vermelho', ['Coração grande', 60], 'Coração verde']), opt('Cor', ['Branca', 'Preta']), opt('Tamanho', TAM)] },
+  { id: 'rl', brand: 'Polo Ralph Lauren', name: 'Camiseta em jérsei', cat: 'Camisetas', img: 'assets/produto-7.jpg', tag: '100% algodão', price: 590,
+    desc: 'Jérsei de algodão macio com o Pony bordado. Uma base para todos os dias.',
+    options: [opt('Cor', ['Preta', 'Branca', 'Marinho']), opt('Tamanho', TAM)] },
+  { id: 'fog', brand: 'Fear of God Essentials', name: 'Moletom com capuz', cat: 'Moletons', img: 'assets/produto-2.jpg', tag: 'Algodão e poliéster', price: 899,
+    desc: 'Moletom pesado com capuz duplo, bolso canguru e logo aplicado em relevo.',
+    options: [opt('Cor', ['Cinza mescla', 'Preto', 'Areia']), opt('Tamanho', TAM)] },
+  { id: 'zg', brand: 'Zegna', name: 'Jaqueta em lã', cat: 'Moletons', img: 'assets/produto-3.jpg', tag: 'Lã', price: 6490,
+    desc: 'Jaqueta bomber em lã feltrada, gola alta canelada e logo em tom sobre tom nas costas.',
+    options: [opt('Cor', ['Cinza', 'Grafite']), opt('Tamanho', ['46', '48', '50', '52', ['54', 300]])] },
+  { id: 'ami', brand: 'Ami Paris', name: 'Suéter Ami de Coeur', cat: 'Moletons', img: 'assets/produto-8.jpg', tag: 'Lã', price: 2890, was: 3290,
+    desc: 'Suéter em tricô de lã com o coração jacquard. Punhos e barra canelados.',
+    options: [opt('Cor', ['Off-white', 'Preto']), opt('Tamanho', TAM)] },
+  { id: 'th', brand: 'Tommy Hilfiger', name: 'Jaqueta Yacht', cat: 'Moletons', img: 'assets/produto-12.jpg', tag: 'Algodão e nylon', price: 1290, was: 1490,
+    desc: 'Jaqueta leve com forro contrastante, gola alta e punhos em ribana.',
+    options: [opt('Cor', ['Bege', 'Marinho']), opt('Tamanho', TAM)] },
+  { id: 'mc', brand: 'Moncler', name: 'Cardigan acolchoado', cat: 'Moletons', img: 'assets/produto-13.jpg', tag: 'Lã e pluma', price: 7890,
+    desc: 'Frente em nylon acolchoado com pluma e mangas em tricô de lã. Capuz fixo.',
+    options: [opt('Cor', ['Marinho', 'Preto']), opt('Tamanho', TAM)] },
+  { id: 'ac', brand: 'Acne Studios', name: 'Moletom Stockholm 1996', cat: 'Moletons', img: 'assets/produto-14.jpg', tag: '100% algodão', price: 3290,
+    desc: 'Moletom com capuz e estampa craquelada nas costas. Lavagem desbotada.',
+    options: [opt('Cor', ['Preto desbotado']), opt('Tamanho', ['XS', 'S', 'M', 'L', 'XL'])] },
+  { id: 'rlh', brand: 'Polo Ralph Lauren', name: 'Moletom RL', cat: 'Moletons', img: 'assets/produto-15.jpg', tag: 'Algodão fleece', price: 1190,
+    desc: 'Fleece de algodão com letras RL aplicadas e cordão contrastante.',
+    options: [opt('Cor', ['Marinho', 'Cinza']), opt('Tamanho', TAM)] },
+  { id: 'rlq', brand: 'Polo Ralph Lauren', name: 'Suéter meio-zíper', cat: 'Moletons', img: 'assets/produto-16a.jpg', tag: 'Tricô de algodão', price: 1390,
+    desc: 'Suéter em tricô de algodão com gola alta, meio-zíper e Pony bordado no peito.',
+    options: [opt('Cor', [['Marinho', 0, 'assets/produto-16a.jpg'], ['Cinza mescla', 0, 'assets/produto-16b.jpg']]), opt('Tamanho', ['P', 'M', 'G', 'GG', ['XGG', 60]])] },
+  { id: 'rlc', brand: 'Polo Ralph Lauren', name: 'Boné Classic Sport', cat: 'Acessórios', img: 'assets/produto-17.jpg', tag: 'Sarja de algodão', price: 390,
+    desc: 'Boné em sarja de algodão com Pony bordado e fecho ajustável em couro.',
+    options: [opt('Cor', [['Marinho', 0, 'assets/produto-17.jpg'], ['Vinho', 0, 'assets/rl-bone-vinho.jpg'], ['Preto', 0, 'assets/rl-bone-preto.jpg']]), opt('Tamanho', ['Único'])] },
+  { id: 'rlb', brand: 'Polo Ralph Lauren', name: 'Boné Polo Bear', cat: 'Acessórios', img: 'assets/rl-bone-bear.jpg', tag: 'Sarja de algodão', price: 490,
+    desc: 'Boné em sarja com o Polo Bear bordado à mão e fecho ajustável.',
+    options: [opt('Cor', ['Marinho']), opt('Tamanho', ['Único'])] },
+  { id: 'amg', brand: 'Ami Paris', name: 'Gorro Ami de Coeur', cat: 'Acessórios', img: 'assets/ami-gorro.jpg', tag: 'Lã', price: 790,
+    desc: 'Gorro canelado em lã com barra dobrada e coração bordado.',
+    options: [opt('Cor', ['Cinza chumbo']), opt('Tamanho', ['Único'])] },
+  { id: 'tng', brand: 'The North Face', name: 'Gorro Logo Box', cat: 'Acessórios', img: 'assets/tnf-gorro.jpg', tag: 'Acrílico', price: 290,
+    desc: 'Gorro canelado com barra dobrada e etiqueta do logo na frente.',
+    options: [opt('Cor', ['Preto']), opt('Tamanho', ['Único'])] },
+  { id: 'tnl', brand: 'The North Face', name: 'Luvas Denali Etip', cat: 'Acessórios', img: 'assets/tnf-luvas.jpg', tag: 'Fleece reciclado', price: 390,
+    desc: 'Luvas em fleece com reforço em nylon, ponta touchscreen e zíper no punho.',
+    options: [opt('Cor', ['Preto']), opt('Tamanho', ['P', 'M', 'G'])] },
+  { id: 'rlf', brand: 'Polo Ralph Lauren', name: 'Suéter Flag', cat: 'Moletons', img: 'assets/rl-flag.jpg', tag: 'Tricô de algodão', price: 2490,
+    desc: 'Suéter em tricô grosso de algodão com a bandeira em intarsia e RL bordado.',
+    options: [opt('Cor', ['Marinho']), opt('Tamanho', ['P', 'M', 'G', 'GG'])] },
+  { id: 'rlk', brand: 'Polo Ralph Lauren', name: 'Suéter tranças', cat: 'Moletons', img: 'assets/rl-cable.jpg', tag: 'Algodão', price: 1290,
+    desc: 'Suéter clássico em tricô de tranças com Pony bordado. Gola careca canelada.',
+    options: [opt('Cor', ['Cinza mescla']), opt('Tamanho', TAM)] },
+  { id: 'nkd', brand: 'Nike', name: 'Dunk Low', cat: 'Calçados', img: 'assets/nike-dunk-panda.jpg', tag: 'Couro', price: 899, was: 999,
+    desc: 'O tênis de basquete dos anos 80 em versão cano baixo, com cabedal em couro e sola de borracha.',
+    options: [opt('Cor', [['Preto / Branco', 0, 'assets/nike-dunk-panda.jpg'], ['Cacau / Vela', 50, 'assets/nike-dunk-cacau.jpg']]), opt('Tamanho', NUM)] },
+  { id: 'ads', brand: 'Adidas', name: 'Samba OG', cat: 'Calçados', img: 'assets/samba-preto.jpg', tag: 'Couro e camurça', price: 799,
+    desc: 'Tênis de couro com biqueira em camurça, três listras serrilhadas e sola de borracha goma.',
+    options: [opt('Cor', [['Preto / Branco', 0, 'assets/samba-preto.jpg'], ['Branco / Preto', 0, 'assets/samba-branco.jpg']]), opt('Tamanho', NUM)] },
+  { id: 'vjc', brand: 'Veja', name: 'Campo', cat: 'Calçados', img: 'assets/veja-campo-branco.jpg', tag: 'Couro sem cromo', price: 899,
+    desc: 'Tênis em couro curtido sem cromo, com o V lateral e sola de borracha natural.',
+    options: [opt('Cor', [['Branco / Preto', 0, 'assets/veja-campo-branco.jpg'], ['Preto / Branco', 0, 'assets/veja-campo-preto.jpg']]), opt('Tamanho', NUM)] },
+  { id: 'vjr', brand: 'Veja', name: 'Recife', cat: 'Calçados', img: 'assets/veja-recife.jpg', tag: 'Couro sem cromo', price: 949,
+    desc: 'Tênis com três tiras de velcro, couro granulado e V em platina metalizada.',
+    options: [opt('Cor', ['Branco / Platina']), opt('Tamanho', NUM)] },
+  { id: 'tnm', brand: 'The North Face', name: 'Moletom Square Logo', cat: 'Moletons', img: 'assets/tnf-moletom.jpg', tag: 'Algodão e poliéster', price: 690,
+    desc: 'Moletom com capuz, logo bordado no peito e etiqueta aplicada na manga.',
+    options: [opt('Cor', ['Marinho']), opt('Tamanho', TAM)] },
+  { id: 'tnn', brand: 'The North Face', name: 'Jaqueta 1996 Retro Nuptse', cat: 'Moletons', img: 'assets/tnf-nuptse.jpg', tag: 'Pluma 700', price: 2890, was: 3290,
+    desc: 'Jaqueta puffer com enchimento de pluma 700, acabamento brilhante e capuz guardado na gola.',
+    options: [opt('Cor', ['Preto total']), opt('Tamanho', TAM)] },
+  { id: 'zgs', brand: 'Zegna', name: 'Tênis Triple Stitch', cat: 'Calçados', img: 'assets/zegna-branco.jpg', tag: 'Couro e camurça', price: 5990,
+    desc: 'Tênis sem cadarço com as três tiras elásticas cruzadas e sola de borracha.',
+    options: [opt('Cor', [['Branco', 0, 'assets/zegna-branco.jpg'], ['Azul camurça', 0, 'assets/zegna-azul.jpg']]), opt('Tamanho', NUM)] },
+  { id: 'lps', brand: 'Loro Piana', name: 'Summer Walk', cat: 'Calçados', img: 'assets/loro-piana.jpg', tag: 'Tecido de linho', price: 6490,
+    desc: 'Mocassim leve sem forro, com sola de borracha flexível. Feito para os dias quentes.',
+    options: [opt('Cor', ['Azul marinho']), opt('Tamanho', NUM)] },
+  { id: 'bob', brand: 'Bobbies', name: 'Mocassim tratorado', cat: 'Calçados', img: 'assets/bobbies.jpg', tag: 'Camurça', price: 1690,
+    desc: 'Penny loafer em camurça com costura aparente e sola tratorada.',
+    options: [opt('Cor', ['Taupe']), opt('Tamanho', NUM)] },
+  { id: 'ncs', brand: 'North Club', name: 'Slip-on em camurça', cat: 'Calçados', img: 'assets/loafer-marrom.jpg', tag: 'Camurça', price: 690,
+    desc: 'Slip-on em camurça com costura à mão e sola branca de borracha.',
+    options: [opt('Cor', ['Café']), opt('Tamanho', NUM)] },
+  { id: 'vbm', brand: 'Vilebrequin', name: 'Short de banho Moorea', cat: 'Moda praia', img: 'assets/vb-moorea-preto.jpg', tag: 'Poliamida de secagem rápida', price: 1690,
+    desc: 'Short de banho liso com cós elástico, cordão e bolso traseiro com velcro.',
+    options: [opt('Cor', ['Preto']), opt('Tamanho', TAM)] },
+  { id: 'vbt', brand: 'Vilebrequin', name: 'Short de banho bordado', cat: 'Moda praia', img: 'assets/vb-gold.jpg', tag: 'Poliamida de secagem rápida', price: 2290, was: 2590,
+    desc: 'Short de banho com tartarugas bordadas, cordão com ponteiras metálicas e forro em tela.',
+    options: [opt('Modelo', [['Tartarugas douradas', 0, 'assets/vb-gold.jpg'], ['Tartaruga vermelha', 100, 'assets/vb-vermelho.jpg']]), opt('Cor', ['Marinho']), opt('Tamanho', TAM)] },
+  { id: 'sdk', brand: 'Sundek', name: 'Boardshort Rainbow', cat: 'Moda praia', img: 'assets/sundek-azul.jpg', tag: 'Nylon', price: 890,
+    desc: 'Boardshort de nylon com o arco-íris nas costas, bolso com ilhós e fechamento em velcro.',
+    options: [opt('Cor', ['Azul marinho']), opt('Tamanho', ['28', '30', '32', '34', '36'])] },
+  { id: 'gg', brand: 'Golden Goose', name: 'Super-Star', cat: 'Calçados', img: 'assets/detalhes.jpg', tag: 'Couro', price: 3590, was: 3990,
+    desc: 'Tênis em couro com acabamento envelhecido feito à mão e estrela lateral.',
+    options: [opt('Modelo', ['Super-Star', ['Running Sole', 400]]), opt('Tamanho', NUM)] },
+  { id: 'on', brand: 'On', name: 'Cloudtilt', cat: 'Calçados', img: 'assets/extra.jpg', tag: 'Tecido técnico', price: 1199,
+    desc: 'Tênis leve com amortecimento CloudTec e cabedal em malha respirável.',
+    options: [opt('Cor', ['Ivory / Black', 'All Black']), opt('Tamanho', NUM)] },
+  { id: 'mm', brand: 'Maison Margiela', name: 'Replica', cat: 'Calçados', img: 'assets/produto-9.jpg', tag: 'Couro e camurça', price: 4990,
+    desc: 'Releitura do tênis de treino militar em couro e camurça, com sola de borracha.',
+    options: [opt('Cor', ['Marinho', 'Branco', 'Cinza']), opt('Tamanho', [...NUM, '45'])] },
+  { id: 'bka', brand: 'Birkenstock', name: 'Arizona', cat: 'Calçados', img: 'assets/produto-10.jpg', tag: 'Camurça', price: 899,
+    desc: 'Sandália de duas tiras com palmilha anatômica em cortiça e látex.',
+    options: [opt('Material', ['Camurça', ['Couro liso', 150]]), opt('Cor', ['Marinho', 'Taupe']), opt('Largura', ['Regular', 'Estreita']), opt('Tamanho', NUM)] },
+  { id: 'bkb', brand: 'Birkenstock', name: 'Boston', cat: 'Calçados', img: 'assets/produto-11.jpg', tag: 'Camurça', price: 1090,
+    desc: 'Clog fechado em camurça com fivela ajustável e palmilha de cortiça.',
+    options: [opt('Cor', ['Taupe', 'Marrom']), opt('Palmilha', ['Original', ['Soft Footbed', 120]]), opt('Tamanho', NUM)] }
+].map(p => ({ ...p, bg: 'url(' + p.img + ')' }));
+
+const slug = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const brandBySlug = s => { const p = CATALOG.find(x => slug(x.brand) === s); return p ? p.brand : null; };
+const findP = id => CATALOG.find(p => p.id === id);
+const addsFor = (p, sel) => p.options.reduce((s, o) => { const v = o.values.find(x => x.v === sel[o.key]); return s + (v ? v.add : 0); }, 0);
+const minAdds = p => p.options.reduce((s, o) => s + Math.min(...o.values.map(v => v.add)), 0);
+const hasRange = p => p.options.some(o => o.values.some(v => v.add !== o.values[0].add));
+const imgFor = (p, sel) => { for (const o of p.options) { const v = o.values.find(x => x.v === sel[o.key]); if (v && v.img) return v.img; } return p.img; };
+const selLabel = (p, sel) => p.options.map(o => sel[o.key]).filter(Boolean).join(' · ');
+const defaultSel = p => { const s = {}; p.options.forEach(o => { if (o.values.length === 1) s[o.key] = o.values[0].v; }); return s; };
+const pct = (now, was) => Math.round((1 - now / was) * 100);
+
+class Component extends DCLogic {
+  state = { paying: false, payErr: '', order: null, gb: {}, brand: null, pid: null, sel: {}, qty: 1, pageIn: true, added: false, cart: {}, cartOpen: false, filter: 'Todos', scrolled: false, mobile: typeof window !== 'undefined' && window.innerWidth < 768, menuOpen: false, tx: 0, ty: 0, zoom: false, titleIn: false };
+
+  componentDidMount() {
+    this._lastView = 's';
+    try { const saved = JSON.parse(localStorage.getItem('nc-cart') || 'null'); if (saved && typeof saved === 'object') { this._lastCart = saved; this.setState({ cart: saved }); } else this._lastCart = this.state.cart; } catch (_) { this._lastCart = this.state.cart; }
+    const mo = location.hash.match(/^#\/pedido\/([a-f0-9]+)$/);
+    if (mo) { this.setState({ order: { id: mo[1], status: 'checking' } }); this.pollOrder(mo[1], 0); }
+    this.onHash = () => this.syncRoute();
+    window.addEventListener('hashchange', this.onHash);
+    this.syncRoute();
+    this.onScroll = () => { const s = window.scrollY > 40; if (s !== this.state.scrolled) this.setState({ scrolled: s }); };
+    this.onResize = () => { const m = window.innerWidth < 768; if (m !== this.state.mobile) this.setState({ mobile: m, menuOpen: false }); };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize);
+    this.onScroll();
+    requestAnimationFrame(() => this.setState({ zoom: true }));
+    if (!this.props.heroImage) setTimeout(() => this.setState({ titleIn: true }), 150);
+    this.titleFallback = setTimeout(() => this.setState({ titleIn: true }), 1500);
+    const els = document.querySelectorAll('[data-reveal]');
+    els.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(12px)'; el.style.transition = 'opacity 600ms ease, transform 600ms ease'; });
+    this.io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; this.io.unobserve(e.target); }
+    }), { threshold: 0.15 });
+    els.forEach(el => this.io.observe(el));
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('hashchange', this.onHash);
+    clearTimeout(this.pollTimer);
+    window.removeEventListener('resize', this.onResize);
+    this.io && this.io.disconnect();
+    clearTimeout(this.titleFallback);
+  }
+
+  syncRoute(forceId) {
+    const m = location.hash.match(/^#\/produto\/([\w-]+)$/);
+    const p = findP(forceId || (m && m[1]));
+    if (p && !this.swipeDir && p.id === this.state.pid) return;
+    const mb = !p && location.hash.match(/^#\/marca\/([\w-]+)$/);
+    const bn = mb && brandBySlug(mb[1]);
+    if (bn) {
+      if (bn === this.state.brand && !this.state.pid) return;
+      if (!this.state.pid && !this.state.brand) this.storeScroll = window.scrollY;
+      const back = this.state.pid && bn === this.state.brand;
+      this.setState({ brand: bn, pid: null, cartOpen: false, menuOpen: false }, () => window.scrollTo({ top: back ? (this.brandScroll || 0) : 0, behavior: 'instant' }));
+      return;
+    }
+    if (p && this.swipeDir) {
+      const dir = this.swipeDir; this.swipeDir = 0;
+      this.setState({ pid: p.id, sel: defaultSel(p), qty: 1, added: false }, () => {
+        const el = this._sw;
+        if (window.scrollY > 0) window.scrollTo({ top: 0, behavior: 'instant' });
+        if (el) {
+          el.style.transition = 'none';
+          el.style.transform = 'translate3d(' + (dir * el.offsetWidth) + 'px,0,0)';
+          void el.offsetWidth;
+          el.style.transition = 'transform 280ms cubic-bezier(.2,.8,.2,1)';
+          el.style.transform = 'translate3d(0,0,0)';
+        }
+        setTimeout(() => { this.animating = false; }, 280);
+      });
+      return;
+    }
+    if (p) {
+      this.setState({ pid: p.id, sel: defaultSel(p), qty: 1, added: false, pageIn: false, cartOpen: false, menuOpen: false }, () => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        requestAnimationFrame(() => this.setState({ pageIn: true }));
+      });
+    } else if (this.state.pid && this.state.brand && !this.navTarget) {
+      this.setState({ pid: null }, () => window.scrollTo({ top: this.brandScroll || 0, behavior: 'instant' }));
+    } else if (this.state.pid || this.state.brand) {
+      const target = location.hash.slice(1);
+      this.setState({ pid: null, brand: null }, () => requestAnimationFrame(() => {
+        const el = target && document.getElementById(target);
+        if (this.storeScroll != null && !this.navTarget) window.scrollTo({ top: this.storeScroll, behavior: 'instant' });
+        else if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 76, behavior: 'instant' });
+        this.storeScroll = null; this.navTarget = false;
+      }));
+    }
+  }
+  siblings(p) { return CATALOG.filter(x => x.cat === p.cat).sort((a, b) => a.brand.localeCompare(b.brand)); }
+  neighbor(dir) {
+    const p = findP(this.state.pid); if (!p) return null;
+    const list = this.siblings(p); return list[list.indexOf(p) + dir] || null;
+  }
+  swipeTo(dir) {
+    const el = this._sw, n = this.neighbor(dir);
+    if (!el || !n || this.animating) return;
+    this.animating = true;
+    el.style.transition = 'transform 200ms cubic-bezier(.4,0,.2,1)';
+    el.style.transform = 'translate3d(' + (-dir * el.offsetWidth) + 'px,0,0)';
+    setTimeout(() => {
+      this.swipeDir = dir;
+      try { history.replaceState(null, '', '#/produto/' + n.id); } catch (_) {}
+      this.syncRoute(n.id);
+      setTimeout(() => { if (this.animating) { this.animating = false; el.style.transition = 'none'; el.style.transform = 'translate3d(0,0,0)'; } }, 600);
+    }, 200);
+  }
+  viewRef = el => { this._view = el; };
+  swipeRef = el => {
+    if (this._sw === el) return;
+    if (this._sw && this._swh) { const h = this._swh, o = this._sw; o.removeEventListener('pointerdown', h.down); o.removeEventListener('pointermove', h.move); o.removeEventListener('pointerup', h.up); o.removeEventListener('pointercancel', h.up); o.removeEventListener('click', h.click, true); }
+    this._sw = el; if (!el) return;
+    const st = {};
+    const down = e => {
+      if (this.animating) return;
+      if (e.pointerType === 'mouse' && (e.button !== 0 || !e.target.closest('[data-swipe-mouse]'))) return;
+      Object.assign(st, { on: true, x: e.clientX, y: e.clientY, t: performance.now(), lock: null, dx: 0, id: e.pointerId });
+      if (e.pointerType === 'mouse') e.preventDefault();
+    };
+    const move = e => {
+      if (!st.on || e.pointerId !== st.id) return;
+      const dx = e.clientX - st.x, dy = e.clientY - st.y;
+      if (!st.lock) {
+        if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+        st.lock = Math.abs(dx) > Math.abs(dy) * 1.3 ? 'x' : 'y';
+        if (st.lock !== 'x') { st.on = false; return; }
+        try { el.setPointerCapture(e.pointerId); } catch (_) {}
+        el.style.transition = 'none';
+      }
+      e.preventDefault();
+      st.dx = this.neighbor(dx < 0 ? 1 : -1) ? dx : dx * 0.3;
+      el.style.transform = 'translate3d(' + st.dx + 'px,0,0)';
+    };
+    const up = e => {
+      if (!st.on || e.pointerId !== st.id) return;
+      st.on = false;
+      if (st.lock !== 'x') return;
+      this.justDragged = true; setTimeout(() => { this.justDragged = false; }, 60);
+      const w = el.offsetWidth, adx = Math.abs(st.dx), v = adx / Math.max(1, performance.now() - st.t), dir = st.dx < 0 ? 1 : -1;
+      if (this.neighbor(dir) && (adx > Math.min(120, w * 0.22) || (v > 0.5 && adx > 30))) this.swipeTo(dir);
+      else { el.style.transition = 'transform 260ms cubic-bezier(.2,.8,.2,1)'; el.style.transform = 'translate3d(0,0,0)'; }
+    };
+    const click = e => { if (this.justDragged) { e.preventDefault(); e.stopPropagation(); } };
+    el.addEventListener('pointerdown', down); el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up); el.addEventListener('click', click, true);
+    this._swh = { down, move, up, click };
+  };
+  flip(dir, action) {
+    const el = this._view;
+    if (!el || this.flipping) { action(); return; }
+    this.flipping = true;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.style.transformOrigin = '50% ' + (window.scrollY + window.innerHeight / 2) + 'px';
+    const out = reduce ? [{ opacity: 1 }, { opacity: 0 }] : [{ transform: 'perspective(1600px) rotateY(0deg) scale(1)', opacity: 1 }, { transform: 'perspective(1600px) rotateY(' + (-dir * 75) + 'deg) scale(0.9)', opacity: 0.35 }];
+    const a = el.animate(out, { duration: reduce ? 120 : 280, easing: 'cubic-bezier(.55,0,.75,.35)', fill: 'forwards' });
+    this.pendingFlip = { dir, reduce };
+    a.onfinish = () => { action(); setTimeout(() => { if (this.pendingFlip) this.flipIn(); }, 400); };
+  }
+  flipIn() {
+    const el = this._view, pf = this.pendingFlip; this.pendingFlip = null;
+    if (!el || !pf) { this.flipping = false; return; }
+    requestAnimationFrame(() => {
+      el.getAnimations().forEach(x => x.cancel());
+      el.style.transformOrigin = '50% ' + (window.scrollY + window.innerHeight / 2) + 'px';
+      const inn = pf.reduce ? [{ opacity: 0 }, { opacity: 1 }] : [{ transform: 'perspective(1600px) rotateY(' + (pf.dir * 75) + 'deg) scale(0.9)', opacity: 0.35 }, { transform: 'perspective(1600px) rotateY(0deg) scale(1)', opacity: 1 }];
+      const a = el.animate(inn, { duration: pf.reduce ? 160 : 320, easing: 'cubic-bezier(.2,.7,.25,1)' });
+      a.onfinish = a.oncancel = () => { this.flipping = false; };
+    });
+  }
+  componentDidUpdate() {
+    const st = this.state;
+    if (this._lastCart !== st.cart) { this._lastCart = st.cart; try { localStorage.setItem('nc-cart', JSON.stringify(st.cart)); } catch (_) {} }
+    const view = st.pid ? 'p' + st.pid : st.brand ? 'b' + st.brand : 's';
+    if (this.pendingFlip && view !== this._lastView) this.flipIn();
+    this._lastView = view;
+  }
+
+  apiBase() {
+    let v = this.props.checkoutApi || '';
+    if (!v) { let top = true; try { top = window.top === window; } catch (_) { top = false; } if (top && /^https?:$/.test(location.protocol)) v = '/api'; }
+    return v.replace(/\/$/, '');
+  }
+  async checkout() {
+    if (this.state.paying || !Object.keys(this.state.cart).length) return;
+    const api = this.apiBase();
+    if (!api) { this.setState({ payErr: 'O pagamento ainda não está conectado. Configure o servidor de checkout (server/README.md) e preencha "checkoutApi".' }); return; }
+    this.setState({ paying: true, payErr: '' });
+    try {
+      const items = Object.values(this.state.cart).map(c => ({ id: c.id, sel: c.sel, qty: c.qty }));
+      const r = await fetch(api + '/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items }) });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok || !d.url) throw new Error(d.error || 'Falha ao criar checkout');
+      try { (window.top || window).location.href = d.url; } catch (_) { window.location.href = d.url; }
+    } catch (e) {
+      this.setState({ paying: false, payErr: 'Não foi possível iniciar o pagamento. ' + (e.message || '') });
+    }
+  }
+  async pollOrder(id, n) {
+    const api = this.apiBase();
+    if (!api) { this.setState({ order: { id, status: 'unknown' } }); return; }
+    try {
+      const r = await fetch(api + '/orders/' + id);
+      const d = r.ok ? await r.json() : null;
+      if (!d) { this.setState({ order: { id, status: 'unknown' } }); return; }
+      this.setState({ order: d });
+      if (d.status === 'approved') { this.setState({ cart: {} }); return; }
+      if (d.status === 'pending' && n < 75) this.pollTimer = setTimeout(() => this.pollOrder(id, n + 1), 4000);
+    } catch (_) { if (n < 75) this.pollTimer = setTimeout(() => this.pollOrder(id, n + 1), 4000); }
+  }
+  openBrand(name) {
+    const s = slug(name);
+    const onBrand = this.state.brand && !this.state.pid;
+    this.flip(1, () => {
+      if (onBrand) { try { history.replaceState(null, '', '#/marca/' + s); } catch (_) {} }
+      else location.hash = '#/marca/' + s;
+      this.syncRoute();
+    });
+  }
+  brandBack() {
+    this.flip(-1, () => { if (this.storeScroll != null) history.back(); else { location.hash = '#marcas'; this.syncRoute(); } });
+  }
+  openProduct(id) {
+    if (this.state.brand && !this.state.pid) this.brandScroll = window.scrollY;
+    if (!this.state.pid && !this.state.brand) this.storeScroll = window.scrollY;
+    this.navTarget = false;
+    location.hash = '#/produto/' + id;
+  }
+  goBack() {
+    if (this.storeScroll != null) history.back();
+    else location.hash = '#colecao';
+  }
+  addToCart(p, sel, qty) {
+    const key = p.id + '|' + p.options.map(o => sel[o.key]).join('|');
+    this.setState(s => { const cur = s.cart[key]; return { cart: { ...s.cart, [key]: { id: p.id, sel, qty: (cur ? cur.qty : 0) + qty } }, cartOpen: true, added: true }; });
+  }
+  setQty(key, d) {
+    this.setState(s => { const cur = s.cart[key]; if (!cur) return null; const qty = cur.qty + d; const cart = { ...s.cart }; if (qty <= 0) delete cart[key]; else cart[key] = { ...cur, qty }; return { cart }; });
+  }
+  productVals(p) {
+    const { sel, qty, added } = this.state;
+    const missing = p.options.filter(o => !sel[o.key]).map(o => o.label);
+    const complete = missing.length === 0;
+    const now = p.price + (complete ? addsFor(p, sel) : minAdds(p) + addsFor(p, sel));
+    const was = p.was ? p.was + (now - p.price) : null;
+    return {
+      ...p,
+      bg: 'url(' + imgFor(p, sel) + ')',
+      catId: p.cat === 'Camisetas' ? 'camisetas' : p.cat === 'Calçados' ? 'calcados' : p.cat === 'Acessórios' ? 'acessorios' : p.cat === 'Moda praia' ? 'praia' : 'moletons',
+      priceLabel: brl(now), fromLabel: !complete && hasRange(p) ? 'A partir de' : '',
+      hasWas: !!was, wasLabel: was ? brl(was) : '', offLabel: was ? '−' + pct(now, was) + '%' : '',
+      totalLabel: complete && qty > 1 ? 'Total ' + brl(now * qty) : '',
+      options: p.options.map(o => ({ label: o.label, title: 'Selecione ' + (o.label === 'Cor' ? 'a cor' : o.label === 'Largura' ? 'a largura' : o.label === 'Palmilha' ? 'a palmilha' : 'o ' + o.label.toLowerCase()), min: o.values.some(v => v.v.length > 6) ? '150px' : '110px', chosen: sel[o.key] || '', values: o.values.map(v => { const on = sel[o.key] === v.v; return { v: v.v, extra: v.add ? '+ ' + brl(v.add) : '', bg: on ? '#2E2E2E' : '#E6E6E8', color: on ? '#FFFFFF' : '#2E2E2E', border: on ? '#2E2E2E' : '#E6E6E8', pick: () => this.setState(s => ({ sel: { ...s.sel, [o.key]: v.v }, added: false })) }; }) })),
+      qty, dec: () => this.setState(s => ({ qty: Math.max(1, s.qty - 1) })), inc: () => this.setState(s => ({ qty: Math.min(10, s.qty + 1) })),
+      canAdd: complete,
+      addLabel: complete ? 'Adicionar ao carrinho' : 'Selecione ' + missing.join(' e ').toLowerCase(),
+      addBg: complete ? '#2E2E2E' : '#D9D9DD', addColor: complete ? '#FFFFFF' : '#6B6B70', addBorder: 'transparent', addCursor: complete ? 'pointer' : 'not-allowed',
+      add: () => { if (complete) this.addToCart(p, { ...sel }, qty); },
+      addedMsg: added ? 'Adicionado ao carrinho.' : '',
+      materialLabel: sel.Material || p.tag,
+      openBrand: () => this.openBrand(p.brand),
+      ...(() => { const list = this.siblings(p), i = list.indexOf(p); return { posLabel: (i + 1) + ' / ' + list.length + ' · ' + p.cat, prevOpacity: i > 0 ? 1 : 0.3, nextOpacity: i < list.length - 1 ? 1 : 0.3, prev: () => this.swipeTo(-1), next: () => this.swipeTo(1) }; })(),
+      installLabel: 'ou 10x de ' + brl(Math.round(now / 10 * 100) / 100) + ' sem juros',
+      thumbs: CATALOG.filter(x => x.brand === p.brand).map(x => ({ name: x.name, bg: x.bg, border: x.id === p.id ? '#2E2E2E' : 'transparent', open: e => { e.preventDefault(); if (x.id !== p.id) this.openProduct(x.id); } })),
+      hasThumbs: CATALOG.filter(x => x.brand === p.brand).length > 1,
+      code: p.id.toUpperCase() + '-' + String(CATALOG.indexOf(p) + 1).padStart(3, '0')
+    };
+  }
+  renderVals() {
+    const cartItems = Object.keys(this.state.cart).map(k => { const c = this.state.cart[k]; const p = findP(c.id); const price = p.price + addsFor(p, c.sel); return { ...p, pname: p.name, variant: selLabel(p, c.sel), unitLabel: brl(price), bg: 'url(' + imgFor(p, c.sel) + ')', qty: c.qty, price, name: p.name + ' · ' + selLabel(p, c.sel), lineLabel: brl(price * c.qty), inc: () => this.setQty(k, 1), dec: () => this.setQty(k, -1), remove: () => this.setQty(k, -c.qty) }; });
+    const openP = id => e => { e && e.preventDefault(); this.openProduct(id); };
+    const cp = this.state.pid ? findP(this.state.pid) : null;
+    const pd = cp ? this.productVals(cp) : null;
+    const cartCount = cartItems.reduce((s, c) => s + c.qty, 0);
+    const { scrolled, mobile, menuOpen, tx, ty, zoom, titleIn } = this.state;
+    const heroImage = this.props.heroImage || 'assets/hero.jpg';
+    const titleImage = this.props.titleImage ?? '';
+    const tilt = mobile ? { x: 0, y: 0 } : { x: tx, y: ty };
+    const ext = ['#E8E3DC','#E1DBD3','#DAD3CA','#D3CBC2','#CCC4BA','#C6BEB4','#C1B9AF','#BDB5AC']
+      .map((c, i) => `${i + 1}px ${i + 1}px 0 ${c}`).join(',');
+    const sx = 14 - tilt.y * 2.5, sy = 18 + tilt.x * 2.5;
+    const noise = "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.46 0 0 0 0.28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")";
+    return {
+      isDesktop: !mobile, isMobile: mobile, menuOpen,
+      headerBg: '#2C0F0C',
+      headerLine: scrolled ? 'rgba(244,241,236,0.15)' : 'transparent',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      closeMenuNav: () => { this.navTarget = true; this.setState({ menuOpen: false }); },
+      storeLink: this.props.storeLink || 'https://wa.me/55XXXXXXXXXXX',
+      heroImg: heroImage ? React.createElement('img', { src: heroImage, alt: 'Camisetas North Club dobradas sobre tecido vinho', onLoad: () => this.setState({ titleIn: true }), style: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: mobile ? 'center top' : '100% 45%', display: 'block' } }) : null, hasHeroImage: !!heroImage, noHeroImage: !heroImage,
+      heroScrim: mobile ? 'linear-gradient(0deg,rgba(44,15,12,0.92) 0%,rgba(44,15,12,0.6) 45%,rgba(44,15,12,0) 70%)' : 'linear-gradient(90deg,rgba(44,15,12,0.9) 0%,rgba(44,15,12,0.7) 38%,rgba(44,15,12,0) 62%), linear-gradient(180deg,rgba(44,15,12,0.6) 0%,rgba(44,15,12,0) 120px)',
+      heroPos: mobile ? 'center top' : 'center 45%',
+      heroScale: zoom ? 1.05 : 1,
+      heroBg: 'url(' + (this.props.heroImage || 'assets/fundo-mar.jpg') + ')',
+      heroImgW: mobile ? '100%' : '46%', heroImgH: mobile ? '68%' : '100%',
+      heroMask: mobile ? 'linear-gradient(0deg,transparent 0%,rgba(0,0,0,0.5) 25%,#000 60%)' : 'linear-gradient(90deg,transparent 0%,rgba(0,0,0,0.5) 22%,#000 55%),linear-gradient(0deg,transparent 0%,#000 30%)',
+      heroFade: mobile ? 'linear-gradient(0deg,#1F0A08 0%,rgba(31,10,8,0.6) 28%,rgba(31,10,8,0) 60%)' : 'linear-gradient(90deg,#1F0A08 0%,rgba(31,10,8,0.55) 22%,rgba(31,10,8,0) 55%),linear-gradient(0deg,rgba(31,10,8,0.7) 0%,rgba(31,10,8,0) 30%)',
+      wmText: mobile ? React.createElement(React.Fragment, null, 'NORTH', React.createElement('br'), 'CLUB') : 'NORTH CLUB',
+      wmSize: mobile ? 'clamp(76px,27vw,150px)' : 'clamp(96px,13.5vw,240px)',
+      wmTop: mobile ? '40%' : '18%', wmZ: 3,
+      heroCardDisplay: 'none',
+      coverCols: mobile ? '1fr' : 'minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr)',
+      coverSide: mobile ? 'none' : 'flex',
+      coverMarquee: (() => {
+        const h = React.createElement;
+        const serif = "'Bodoni Moda',Didot,'Times New Roman',serif";
+        const lines = [
+          { top: '30%', anim: 'nc-marq-l', dur: 26, words: ['Poucas peças', 'Bem-feitas', 'Para usar por muitos anos'], italic: true, size: 'clamp(30px,4.2vw,64px)', color: '#F4F1EC' },
+          { top: '47%', anim: 'nc-marq-r', dur: 34, words: ['North Club', 'Curadoria multimarcas', 'Coleção 01'], italic: false, size: 'clamp(22px,2.8vw,44px)', color: '#C9B6AE' }
+        ];
+        return h(React.Fragment, null, lines.map((l, li) => h('div', { key: li, 'aria-hidden': 'true', style: { position: 'absolute', left: 0, right: 0, top: l.top, pointerEvents: 'none' } },
+          h('div', { 'data-marquee': '1', style: { display: 'flex', width: 'max-content', animation: l.anim + ' ' + l.dur + 's linear infinite', willChange: 'transform' } },
+            [0, 1, 2, 3].flatMap(n => l.words.map((w, i) => h('span', { key: n + '-' + i, style: { flexShrink: 0, padding: '0 0.4em', fontFamily: serif, fontStyle: l.italic ? 'italic' : 'normal', fontWeight: l.italic ? 400 : 500, fontSize: l.size, lineHeight: 1.1, letterSpacing: l.italic ? '0' : '0.08em', textTransform: l.italic ? 'none' : 'uppercase', color: l.color, whiteSpace: 'nowrap', textShadow: '0 6px 24px rgba(0,0,0,0.35)' } }, w + '  ·')))))));
+      })(),
+      coverTextOrder: mobile ? 2 : 0,
+      coverImgMargin: mobile ? '12px -16px 0' : '8px 0 0',
+      coverImgH: mobile ? 'auto' : 'calc(100% - 8px)',
+      coverImgAR: mobile ? '680 / 840' : 'auto',
+      mastSize: mobile ? '15vw' : 'clamp(56px,15vw,228px)',
+      heroMinH: mobile ? '100svh' : 'max(100vh, 760px)', heroRows: mobile ? 'auto auto' : 'auto 1fr',
+      rowFs: mobile ? '9px' : '10px', rowTrack: mobile ? '0.16em' : '0.22em', rowPad: mobile ? '10px 0 0' : '14px 0 0',
+      coverTextGap: mobile ? '20px' : '32px',
+      coverTextPad: mobile ? '4px 0 40px' : 'clamp(24px,3vw,40px) 0 clamp(40px,5vw,64px)',
+      coverMask: 'none',
+      heroLogo: (() => {
+        const h = React.createElement;
+        const item = k => h('span', { key: k, style: { flexShrink: 0, padding: '0 0.18em', fontFamily: "'Inter Tight',sans-serif", fontWeight: 600, fontSize: mobile ? '34vw' : 'clamp(120px,16vw,260px)', lineHeight: 0.9, letterSpacing: '-0.04em', color: '#151010', whiteSpace: 'nowrap' } }, 'NORTH CLUB');
+        return h('div', { 'aria-hidden': 'true', style: { position: 'absolute', zIndex: 1, left: 0, right: 0, top: mobile ? '30%' : '40%', pointerEvents: 'none', overflow: 'hidden' } },
+          h('div', { 'data-marquee': '1', style: { display: 'flex', width: 'max-content', animation: 'nc-marq-l 40s linear infinite', willChange: 'transform' } }, [0, 1, 2, 3].map(item)));
+      })(),
+      heroShop: openP('zg'),
+      ...(() => {
+        const h = React.createElement;
+        const words = ['NORTH CLUB', 'CURADORIA MULTIMARCAS', 'COLEÇÃO 01', 'ORIGINAIS'];
+        const track = (anim, dur, kids) => h('div', { 'data-marquee': '1', style: { display: 'flex', width: 'max-content', animation: anim + ' ' + dur + 's linear infinite', willChange: 'transform' } }, kids);
+        const behindKids = [0, 1, 2, 3].flatMap(n => words.map((w, i) => h('span', { key: n + '-' + i, style: { flexShrink: 0, padding: '0 0.45em', fontFamily: "'Inter Tight',sans-serif", fontWeight: 600, fontSize: 'clamp(56px,8vw,128px)', lineHeight: 1, letterSpacing: '-0.02em', color: 'transparent', WebkitTextStroke: '1px rgba(244,241,236,0.55)', whiteSpace: 'nowrap' } }, w + ' ·')));
+        const frontKids = [0, 1, 2, 3].flatMap(n => words.map((w, i) => h('span', { key: n + '-' + i, style: { flexShrink: 0, display: 'flex', alignItems: 'center', gap: 'clamp(20px,3vw,40px)', padding: '0 clamp(20px,3vw,40px)', fontFamily: i % 2 ? 'Inter,sans-serif' : "'Inter Tight',sans-serif", fontWeight: i % 2 ? 400 : 600, fontSize: 'clamp(13px,1.4vw,18px)', letterSpacing: i % 2 ? '0.4em' : '0.22em', color: '#2C0F0C', whiteSpace: 'nowrap' } }, w, h('span', { style: { width: 6, height: 6, borderRadius: '50%', background: '#D63A2F', display: 'block' } }))));
+        return {
+          heroBehind: mobile ? null : h('div', { 'aria-hidden': 'true', style: { position: 'absolute', zIndex: 1, left: 0, right: 0, top: '44%', perspective: '900px', pointerEvents: 'none', overflow: 'hidden' } },
+            h('div', { style: { transform: 'rotateY(-14deg) rotateX(6deg)', transformOrigin: '70% 50%' } }, track('nc-marq-r', 60, behindKids))),
+          heroFront: null && h('div', { 'aria-hidden': 'true', style: { position: 'absolute', zIndex: 3, left: '-10%', right: '-10%', top: mobile ? '26%' : '55%', perspective: '1000px', pointerEvents: 'none' } },
+            h('div', { style: { background: '#F4F1EC', padding: 'clamp(12px,1.3vw,18px) 0', overflow: 'hidden', transform: mobile ? 'rotateZ(-6deg)' : 'rotateY(16deg) rotateZ(-4deg) translateZ(40px)', boxShadow: '0 24px 50px rgba(0,0,0,0.45), 0 2px 0 rgba(255,255,255,0.4) inset' } }, track('nc-marq-l', 40, frontKids)))
+        };
+      })(),
+      onHeroLoad: () => this.setState({ titleIn: true }),
+      heroPad: mobile ? '0 16px 56px' : '0 clamp(24px,4vw,48px) 0',
+      heroJustify: mobile ? 'flex-end' : 'center',
+      titleOpacity: titleIn ? 1 : 0,
+      titleY: titleIn ? '0px' : '16px',
+      titleTransform: mobile ? 'rotateX(8deg) rotateY(-6deg)' : `rotateX(${8 + tilt.x}deg) rotateY(${-6 + tilt.y}deg)`,
+      titleShadow: `${ext}, ${sx}px ${sy}px 26px rgba(20,5,4,0.55)`,
+      titleTexture: `${noise}, linear-gradient(160deg,#FFFFFF 0%,#F4F1EC 45%,#E2DCD4 100%)`,
+      titleImg: titleImage ? React.createElement('img', { src: titleImage, alt: 'O básico, levado a sério.', style: { display: 'block', width: '100%', maxWidth: 720, height: 'auto' } }) : null, hasTitleImage: !!titleImage,
+      noTitleImage: !titleImage,
+      onHeroMove: e => {
+        if (mobile) return;
+        const r = e.currentTarget.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width - 0.5, ny = (e.clientY - r.top) / r.height - 0.5;
+        this.setState({ tx: -ny * 8, ty: nx * 8 });
+      },
+      onHeroLeave: () => this.setState({ tx: 0, ty: 0 }),
+      collGap: mobile ? '32px 12px' : '56px 28px',
+      collCols: mobile ? 'repeat(2,minmax(0,1fr))' : 'repeat(3,minmax(0,1fr))',
+      bpCols: mobile ? 'repeat(2,minmax(0,1fr))' : 'repeat(auto-fill,minmax(260px,1fr))',
+      cardGap: mobile ? '12px' : '24px', cardPadB: mobile ? '12px' : '16px',
+      cardMeta: mobile ? '9px' : '11px', cardTrack: mobile ? '0.18em' : '0.25em',
+      cardTitle: mobile ? '14px' : '17px', cardFoot: mobile ? 'none' : 'flex',
+      thumbSize: mobile ? '64px' : '96px',
+      brandJustify: mobile ? 'flex-start' : 'space-between', brandGap: mobile ? '4px 20px' : '20px 40px',
+      collWrap: mobile ? 'nowrap' : 'wrap',
+      detailBg: 'url(assets/produto-2.jpg)',
+      editorialCols: mobile ? '1fr' : '7fr 5fr',
+      editorial: [
+        { brand: 'Polo Ralph Lauren', bg: 'url(assets/editorial-1.jpg)', ratio: '1/1', cta: 'Ver peça →', open: openP('rl') },
+        { brand: 'Ami Paris', bg: 'url(assets/produto-8.jpg)', ratio: '3/4', cta: 'Ver peça →', open: openP('ami') }
+      ],
+      detailCols: mobile ? '1fr' : '7fr 5fr',
+      brands: [...new Set(CATALOG.map(p => p.brand))].sort((a, b) => a.localeCompare(b)).map(name => ({ name, open: () => this.openBrand(name) })),
+      groups: [
+        { id: 'camisetas', cat: 'Camisetas', num: '01', title: 'Camisetas', text: 'Algodão, gola firme e corte limpo.', bg: '#2C0F0C' },
+        { id: 'moletons', cat: 'Moletons', num: '02', title: 'Moletons e jaquetas', text: 'Peso, textura e calor para as camadas.', bg: '#4A1A16' },
+        { id: 'calcados', cat: 'Calçados', num: '03', title: 'Calçados', text: 'Tênis, sandálias e clogs para todos os dias.', bg: '#2C0F0C' },
+        { id: 'praia', cat: 'Moda praia', num: '04', title: 'Moda praia', text: 'Shorts de banho que secam rápido e vão da água à mesa.', bg: '#4A1A16' },
+        { id: 'acessorios', cat: 'Acessórios', num: '05', title: 'Acessórios', text: 'Os detalhes que fecham o look.', bg: '#2C0F0C' }
+      ].map(g => { const all = CATALOG.filter(p => p.cat === g.cat).sort((a, b) => a.brand.localeCompare(b.brand)); const sel = this.state.gb[g.id] || 'Todas'; const gBrands = [...new Set(all.map(p => p.brand))]; const chips = ['Todas', ...gBrands].map(b => ({ label: b === 'Todas' ? 'Todas (' + all.length + ')' : b, color: sel === b ? '#F4F1EC' : '#C9B6AE', line: sel === b ? '#F4F1EC' : 'transparent', pick: () => this.setState(s => ({ gb: { ...s.gb, [g.id]: b } })) })); const items = all.filter(p => sel === 'Todas' || p.brand === sel).map(p => ({ ...p, priceLabel: brl(p.price + minAdds(p)), fromLabel: hasRange(p) ? 'A partir de' : '', hasWas: !!p.was, wasLabel: p.was ? brl(p.was) : '', open: openP(p.id), openBrand: () => this.openBrand(p.brand) })); return { ...g, showRibbon: g.num === '01' || g.num === '03', chips, href: '#' + g.id, items, count: all.length + ' peças · ' + gBrands.length + ' marcas' }; }),
+      groupCols: mobile ? '1fr' : '3fr 9fr',
+      labelPos: mobile ? 'static' : 'sticky',
+      chipDir: mobile ? 'row' : 'column',
+      gridDisplay: mobile ? 'flex' : 'grid',
+      isStore: !cp && !this.state.brand, isProduct: !!cp, pd: pd || {},
+      pageOpacity: this.state.pageIn ? 1 : 0, pageY: this.state.pageIn ? '0px' : '12px',
+      goBack: () => this.goBack(),
+      swipeRef: this.swipeRef,
+      viewRef: this.viewRef,
+      isBrand: !cp && !!this.state.brand,
+      brandBack: () => this.brandBack(),
+      bpMin: mobile ? '160px' : '260px',
+      bp: (() => { const b = this.state.brand; if (!b) return { items: [], others: [] }; const items = CATALOG.filter(x => x.brand === b).map(x => ({ ...x, priceLabel: brl(x.price + minAdds(x)), fromLabel: hasRange(x) ? 'A partir de' : '', hasWas: !!x.was, wasLabel: x.was ? brl(x.was) : '', open: openP(x.id) })); const cats = [...new Set(items.map(x => x.cat))]; return { name: b, items, countLabel: items.length + (items.length === 1 ? ' peça' : ' peças') + ' · ' + cats.join(', '), others: [...new Set(CATALOG.map(x => x.brand))].filter(x => x !== b).sort((x, y) => x.localeCompare(y)).map(x => ({ name: x, open: () => this.openBrand(x) })) }; })(),
+      navTo: () => { this.navTarget = true; },
+      pdCols: mobile ? '1fr' : '7fr 5fr', pdImgPos: mobile ? 'static' : 'sticky',
+      cartOpen: this.state.cartOpen,
+      openCart: () => this.setState({ cartOpen: true, menuOpen: false }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      logoGap: mobile ? '10px' : '12px', logoSize: mobile ? '13px' : '14px', logoTrack: mobile ? '0.22em' : '0.32em', logoSubTrack: mobile ? '0.28em' : '0.38em',
+      openWhats: e => {
+        e.preventDefault();
+        const url = 'https://wa.me/5541998281010';
+        try { window.top.location.href = url; } catch (_) { const w = window.open(url, '_blank'); if (!w) location.href = url; }
+      },
+      ribbons: (() => {
+        const h = React.createElement;
+        const seq = (fg, dim, key) => ['bold', 'mono', 'thin', 'thin2'].map((t, i) => {
+          const common = { flexShrink: 0, display: 'flex', alignItems: 'center', padding: '0 clamp(28px,4vw,64px)', color: fg, whiteSpace: 'nowrap' };
+          if (t === 'bold') return h('span', { key: key + i, style: { ...common, fontFamily: "'Inter Tight',sans-serif", fontWeight: 600, fontSize: 'clamp(15px,1.8vw,26px)', letterSpacing: '0.22em' } }, 'CURADORIA MULTIMARCAS');
+          if (t === 'mono') return h('span', { key: key + i, style: common }, h('span', { style: { width: 'clamp(30px,3vw,44px)', height: 'clamp(30px,3vw,44px)', border: '1px solid ' + fg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter Tight',sans-serif", fontWeight: 600, fontSize: 'clamp(11px,1.1vw,15px)', letterSpacing: '0.08em' } }, 'NC'));
+          if (t === 'thin') return h('span', { key: key + i, style: { ...common, fontFamily: 'Inter,sans-serif', fontWeight: 400, fontSize: 'clamp(18px,2.4vw,36px)', letterSpacing: '0.4em' } }, 'NORTH CLUB');
+          return h('span', { key: key + i, style: { ...common, fontFamily: 'Inter,sans-serif', fontWeight: 400, fontSize: 'clamp(12px,1.2vw,16px)', letterSpacing: '0.38em', color: dim } }, 'MULTIMARCAS');
+        });
+        const row = (o) => h('div', { key: o.k, style: { position: 'absolute', left: '-15%', width: '130%', top: o.top, zIndex: o.z, background: o.bg, transform: o.tf, transformStyle: 'preserve-3d', boxShadow: o.shadow, overflow: 'hidden' } },
+          h('div', { 'data-marquee': '1', style: { display: 'flex', width: 'max-content', padding: 'clamp(16px,1.8vw,26px) 0', animation: o.anim + ' ' + o.dur + 's linear infinite', willChange: 'transform' } },
+            [0, 1, 2, 3].flatMap(n => seq(o.fg, o.dim, o.k + n))),
+          h('div', { style: { position: 'absolute', inset: 0, pointerEvents: 'none', background: o.shade } }));
+        return h('div', { style: { position: 'absolute', inset: 0, transformStyle: 'preserve-3d' } },
+          row({ k: 'b', top: '16%', z: 1, bg: '#4A1A16', fg: '#C9B6AE', dim: '#9C7E76', anim: 'nc-marq-r', dur: 46, tf: 'rotateY(-16deg) rotateZ(-4deg) translateZ(-40px)', shadow: '0 10px 30px rgba(0,0,0,0.25)', shade: 'linear-gradient(90deg,rgba(0,0,0,0.25),rgba(0,0,0,0) 40%,rgba(255,255,255,0.04) 70%,rgba(0,0,0,0.2))' }),
+          row({ k: 'f', top: '42%', z: 2, bg: '#F4F1EC', fg: '#2C0F0C', dim: '#7A5A52', anim: 'nc-marq-l', dur: 38, tf: 'rotateY(14deg) rotateZ(3deg) translateZ(30px)', shadow: '0 18px 40px rgba(0,0,0,0.4)', shade: 'linear-gradient(90deg,rgba(44,15,12,0.18),rgba(44,15,12,0) 35%,rgba(255,255,255,0.12) 65%,rgba(44,15,12,0.16))' }));
+      })(),
+      cmpCols: mobile ? '1fr' : 'repeat(2,minmax(0,1fr))',
+      compares: [
+        // Para trocar: title, imgA/imgB (fotos), nameA/nameB (legendas) e product (id do produto no catálogo)
+        { key: 'gg', title: 'Golden Goose', imgA: 'assets/gg-branco.jpg', nameA: 'Super-Star branco', imgB: 'assets/gg-preto.jpg', nameB: 'Super-Star preto', product: 'gg' },
+        { key: 'bk', title: 'Birkenstock', imgA: 'assets/produto-10.jpg', nameA: 'Arizona', imgB: 'assets/produto-11.jpg', nameB: 'Boston', product: 'bka' },
+        { key: 'vj', title: 'Veja Campo', imgA: 'assets/veja-campo-branco.jpg', nameA: 'Branco / Preto', imgB: 'assets/veja-campo-preto.jpg', nameB: 'Preto / Branco', product: 'vjc' },
+        { key: 'zg', title: 'Zegna', imgA: 'assets/zegna-branco.jpg', nameA: 'Branco', imgB: 'assets/zegna-azul.jpg', nameB: 'Azul camurça', product: 'zgs' }
+      ].map(c => {
+        const pos = (this.state.cmpPos || {})[c.key] ?? 50;
+        this.cmpEls = this.cmpEls || {};
+        const setFrom = e => { const el = this.cmpEls[c.key]; if (!el) return; const r = el.getBoundingClientRect(); const v = Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)); this.setState(s => ({ cmpPos: { ...(s.cmpPos || {}), [c.key]: v } })); };
+        return {
+          title: c.title, nameA: c.nameA, nameB: c.nameB,
+          imgA: 'url(' + c.imgA + ')', imgB: 'url(' + c.imgB + ')',
+          shop: openP(c.product),
+          clip: 'inset(0 ' + (100 - pos) + '% 0 0)', left: pos + '%',
+          labelA: pos > 20 ? 1 : 0, labelB: pos < 80 ? 1 : 0,
+          ref: el => { this.cmpEls[c.key] = el; },
+          down: e => { this.cmpDrag = { k: c.key, x: e.clientX, y: e.clientY, on: e.pointerType === 'mouse' }; if (this.cmpDrag.on) { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} setFrom(e); } },
+          move: e => {
+            const d = this.cmpDrag; if (!d || d.k !== c.key) return;
+            if (!d.on) { const dx = Math.abs(e.clientX - d.x), dy = Math.abs(e.clientY - d.y); if (dy > 10 && dy > dx) { this.cmpDrag = null; return; } if (dx > 6) { d.on = true; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} } else return; }
+            setFrom(e);
+          },
+          up: e => { const d = this.cmpDrag; if (d && d.k === c.key && !d.on && e.type === 'pointerup') setFrom(e); this.cmpDrag = null; }
+        };
+      }),
+      cartCount, cartLabel: 'Sacola (' + cartCount + ')',
+      cartEmpty: cartItems.length === 0,
+      cartItems,
+      subtotalLabel: brl(cartItems.reduce((s, c) => s + c.price * c.qty, 0)),
+      checkout: () => this.checkout(),
+      payLabel: this.state.paying ? 'Abrindo checkout seguro…' : 'Finalizar compra',
+      payBg: this.state.paying || !cartItems.length ? 'transparent' : '#F4F1EC',
+      payColor: this.state.paying || !cartItems.length ? '#F4F1EC' : '#2C0F0C',
+      payCursor: this.state.paying || !cartItems.length ? 'default' : 'pointer',
+      payErr: this.state.payErr,
+      hasOrder: !!this.state.order,
+      order: (() => { const o = this.state.order; if (!o) return {}; const M = { checking: ['Verificando pagamento', 'Estamos consultando o status do seu pagamento.'], pending: ['Aguardando confirmação', 'Assim que o provedor de pagamento confirmar, seu pedido será aprovado. Pagamentos via Pix costumam levar alguns segundos.'], approved: ['Pagamento aprovado', 'Recebemos a confirmação do pagamento. Seu pedido foi registrado.'], rejected: ['Pagamento recusado', 'O pagamento não foi aprovado e o pedido não foi cobrado. Seus produtos continuam na sacola.'], cancelled: ['Pagamento cancelado', 'O pagamento foi cancelado. Seus produtos continuam na sacola.'], review: ['Pedido em análise', 'Houve uma divergência na confirmação. Nossa equipe vai revisar o pedido.'], unknown: ['Pedido não encontrado', 'Não conseguimos consultar este pedido agora.'] }; const m = M[o.status] || M.unknown; return { id: o.id, title: m[0], text: m[1], totalLabel: o.total ? 'Total ' + brl(o.total) : '' }; })(),
+      closeOrder: () => { clearTimeout(this.pollTimer); try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {} this.setState({ order: null }); },
+      details: [
+        { n: '01', title: '100% algodão penteado', text: 'Fio macio e resistente, que melhora com o uso.' },
+        { n: '02', title: 'Modelagem reta, caimento limpo', text: 'Corte pensado para vestir bem sem esforço.' },
+        { n: '03', title: 'Gola reforçada que não deforma', text: 'Mantém a forma lavagem após lavagem.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

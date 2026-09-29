@@ -1,0 +1,7 @@
+{
+  "name": "north-club",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  }
+}

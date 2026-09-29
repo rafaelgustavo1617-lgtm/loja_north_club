@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/North Club.dc.html"
+    },
+    {
+      "source": "/api/orders/:id",
+      "destination": "/api/order?id=:id"
+    },
+    {
+      "source": "/api/webhooks/:provider",
+      "destination": "/api/webhook?provider=:provider"
+    }
+  ]
+}
